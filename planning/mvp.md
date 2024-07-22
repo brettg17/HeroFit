@@ -19,8 +19,7 @@ training plans for strength training, cardio, flexibility, meditation, mixed pla
 
 *Challenges/Leader board* 
 
-Lists of challenges for the user to accomplish. Leader board includes display top performers.
-
+Lists of challenges for the user to accomplish. 
 *Progress Tracker* 
 
 Includes character graph progression taking date vs level/experience. Personal bests and achievements. Experience in different stat categories like strength training, cardio, etc...
@@ -32,3 +31,5 @@ unlock achievements from accomplishing things like working out so x amount of da
 *Stretch *
 
 Users will then upload a photo of themselves and AI will generate different looks based and said class
+
+Leader board includes display top performers.

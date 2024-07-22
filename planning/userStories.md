@@ -28,7 +28,7 @@
 
 *Progress Tracking*
 
-- as a user, I want to track my workout progress voer time so that I can see my improvments
+- as a user, I want to track my workout progress over time so that I can see my improvments
 
 - as a user, I want to view my achievments and personal bests so that I feel motivated to continue
 
