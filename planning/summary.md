@@ -7,3 +7,5 @@ Fitness app that places the user into different character classes based on what 
 Users upload a photo of themselves and use AI to generate different looks based and said class
 
 Leader board includes a display of top performers.
+
+

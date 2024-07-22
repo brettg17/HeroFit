@@ -20,6 +20,7 @@ training plans for strength training, cardio, flexibility, meditation, mixed pla
 *Challenges/Leader board* 
 
 Lists of challenges for the user to accomplish. 
+
 *Progress Tracker* 
 
 Includes character graph progression taking date vs level/experience. Personal bests and achievements. Experience in different stat categories like strength training, cardio, etc...
