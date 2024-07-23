@@ -1,3 +1,3 @@
 # HeroFit
 
-Fitness app using Postgresql, Express, React, and Node for the tech stack. In Herofit Users will be asked to choose a character class based on what they want to work on. For example, choose the warrior class to be given excercises and meals plans tailored to bulking up. Herofit also features a leveling up system where users will gain experience points when they completed daily workouts, cook recomended meals and complete daily challenges. Charts are also present to help users keep track of their progress. 
+Fitness app that places the user into different character classes based on what they want to work on ex: warrior class can be focused on bulking up or a monk can be focused on meditation. Also includes meal planning, daily challenges, and a chart sytem to keep track of your progress. As a user completes these tasks they gain experience points to improve their level.
