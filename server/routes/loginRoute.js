@@ -2,23 +2,6 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// Register Route
-
-router.post("/signup", async (req, res) => {
-  const { username, email, password } = req.body;
-  try {
-    const result = await pool.query(
-      "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
-      [username, email, password]
-    );
-    res.status(201).json(result.rows[0]);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-//Login Route
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -36,11 +19,5 @@ router.post("/login", async (req, res) => {
   }
 });
 
-
-// Home Route
-
-router.get("/", (req, res) => {
-  res.send("Hello, Welcome to the HeroFit!");
-});
 
 module.exports = router;
