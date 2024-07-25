@@ -29,7 +29,7 @@ router.post("/login", async (req, res) => {
     if (result.rows.length > 0) {
       res.status(200).json(result.rows[0]);
     } else {
-      res.status(401).json({ error: "Invalid credentials" });
+      res.status(401).json({ error: "Invalid username/password" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
 // Home Route
 
 router.get("/", (req, res) => {
-  res.send("Hello, welcome to the HeroFit!");
+  res.send("Hello, Welcome to the HeroFit!");
 });
 
 module.exports = router;
