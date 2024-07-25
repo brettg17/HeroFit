@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
 // Home Route
 
 router.get("/", (req, res) => {
-  res.send("Hello, welcome to the FitApp!");
+  res.send("Hello, welcome to the HeroFit!");
 });
 
 module.exports = router;
