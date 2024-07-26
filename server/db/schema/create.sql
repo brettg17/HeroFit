@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS UserProfiles;
 DROP TABLE IF EXISTS CharacterClasses;
 DROP TABLE IF EXISTS Workouts;
+
 -- User table
 CREATE TABLE users (
   user_id SERIAL PRIMARY KEY NOT NULL,
