@@ -1,0 +1,39 @@
+.choosechar-container {
+  text-align: center;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.choosechar-grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.char-card {
+  width: 150px;
+  margin: 20px;
+  text-align: center;
+  background-color: black;
+}
+
+.char-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.char-card img:hover {
+  transform: scale(1.05);
+}
+
+.char-card p {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
