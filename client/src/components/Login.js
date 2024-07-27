@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { mockLogin } from './mockApi';
+import axios from 'axios';
 import '../styles/Login.css';
 
 function Login() {
@@ -9,13 +9,16 @@ function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = mockLogin(email, password);
-    if (result.success) {
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/login', {
+        email,
+        password,
+      });
       navigate('/classes');
-    } else {
-      setError(result.message);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Login failed');
     }
   };
 
@@ -27,6 +30,7 @@ function Login() {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
+            <i className="fas fa-user input-icon"></i>
             <input
               type="email"
               id="email"
@@ -37,6 +41,7 @@ function Login() {
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
+            <i className="fas fa-lock input-icon"></i>
             <input
               type="password"
               id="password"
@@ -44,11 +49,12 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <a href="/forgot-password" className="forgot-password-link">Forgot Password?</a>
           </div>
           <button type="submit" className="login-button">LOG IN</button>
         </form>
         <div className="signup-link">
-          No account? <a href="/signup">CREATE ONE</a>
+          No account? <a href="/signup">Sign Up</a>
         </div>
       </div>
     </div>

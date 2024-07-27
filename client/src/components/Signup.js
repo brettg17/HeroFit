@@ -1,21 +1,26 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { mockSignup } from './mockApi';
+import axios from 'axios';
 import '../styles/Signup.css';
 
 function Signup() {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = mockSignup(email, password);
-    if (result.success) {
-      navigate('/classes'); 
-    } else {
-      setError(result.message);
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/signup', {
+        username,
+        email,
+        password,
+      });
+      navigate('/classes');
+    } catch (err) {
+      setError(err.response?.data?.error || 'Signup failed');
     }
   };
 
@@ -26,7 +31,21 @@ function Signup() {
         {error && <p>{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="username">
+              <i className="fas fa-user input-icon"></i> Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">
+              <i className="fas fa-envelope input-icon"></i> Email Address
+            </label>
             <input
               type="email"
               id="email"
@@ -36,7 +55,9 @@ function Signup() {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">
+              <i className="fas fa-lock input-icon"></i> Password
+            </label>
             <input
               type="password"
               id="password"
@@ -45,7 +66,7 @@ function Signup() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button type="submit" className="signup-button">Signup</button>
+          <button type="submit" className="signup-button">Sign Up</button>
         </form>
       </div>
     </div>

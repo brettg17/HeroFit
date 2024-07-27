@@ -14,9 +14,9 @@ app.use(cors());
 app.use(express.json())
 
 //ROUTES
-app.get('/', (req, res) => {
-  res.send("hello");
-});
+app.use("/api/home", homeRoute);
+app.use("/api/auth", loginRoute);
+app.use("/api/auth", signupRoute);
 
 
 app.listen(5000, () => {
