@@ -1,0 +1,76 @@
+.choosechar-container {
+  text-align: center;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.choosechar-grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.char-card {
+  background-color: #1e1e1e;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 150px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.char-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.char-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.char-card p {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+.char-description {
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+  color: black
+}
+
+.char-description h3 {
+  font-size: 24px;
+}
+
+.char-description p {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.char-description button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.char-description button:hover {
+  background-color: #0056b3;
+}
