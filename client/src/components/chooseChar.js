@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import '../styles/chooseChar.css';
 import warriorShot from '../assets/warriorShot.png';
 import wizardShot from '../assets/wizardShot.png';
@@ -7,6 +8,8 @@ import rogueShot from '../assets/rogueShot.png';
 
 function ChooseChar() {
   const [selectedClass, setSelectedClass] = useState(null);
+  const location = useLocation();
+  const { username } = location.state || { username: 'User' };
 
   const characterClasses = [
     { name: 'Warrior', description: 'Workouts are tailored towards those who want to build muscle.', imgSrc: warriorShot },
@@ -21,7 +24,7 @@ function ChooseChar() {
 
   return (
     <div className="choosechar-container">
-      <h2>Choose Your Character, *username*</h2>
+      <h2>Choose Your Character, {username}</h2>
       <div className="choosechar-grid">
         {characterClasses.map((charClass) => (
           <div key={charClass.name} className="char-card" onClick={() => handleSelect(charClass)}>

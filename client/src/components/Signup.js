@@ -12,13 +12,18 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!username || !email || !password) {
+      setError('All fields are required');
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:5000/api/auth/signup', {
         username,
         email,
         password,
       });
-      navigate('/classes');
+      navigate('/classes', { state: { username } });
     } catch (err) {
       setError(err.response?.data?.error || 'Signup failed');
     }
