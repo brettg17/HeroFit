@@ -18,6 +18,9 @@ CREATE TABLE Users (
   password VARCHAR(255) NOT NULL
 );
 
+ALTER TABLE Users
+ADD CONSTRAINT unique_email UNIQUE (email);
+
 -- UserProfile Table
 CREATE TABLE UserProfiles (
   profile_id SERIAL PRIMARY KEY,

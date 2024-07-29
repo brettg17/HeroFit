@@ -13,10 +13,9 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !email || !password) {
-      setError('All fields are required');
+      setError("All fields are required");
       return;
     }
-
     try {
       const response = await axios.post('http://localhost:5000/api/auth/signup', {
         username,
