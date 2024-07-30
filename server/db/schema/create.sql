@@ -18,6 +18,7 @@ CREATE TABLE Users (
   password VARCHAR(255) NOT NULL
 );
 
+
 -- UserProfile Table
 CREATE TABLE UserProfiles (
   profile_id SERIAL PRIMARY KEY,
