@@ -6,6 +6,7 @@
 h2 {
   margin-bottom: 20px;
   font-size: 24px;
+  color: black
 }
 
 .choosechar-grid {
@@ -40,7 +41,7 @@ h2 {
   margin-top: 10px;
   font-size: 18px;
   font-weight: bold;
-  color: white;
+  color: rgb(236, 230, 230);
 }
 
 .char-description {
@@ -65,7 +66,7 @@ h2 {
   font-size: 16px;
   cursor: pointer;
   background-color: #007BFF;
-  color: white;
+  color: rgb(236, 230, 230);
   border: none;
   border-radius: 5px;
   transition: background-color 0.3s;

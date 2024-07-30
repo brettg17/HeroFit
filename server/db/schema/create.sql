@@ -14,6 +14,12 @@ CREATE TABLE users (
   password VARCHAR(255) NOT NULL
 );
 
+-- Character classes
+CREATE TABLE CharacterClasses (
+  class_id SERIAL PRIMARY KEY,
+  class_name VARCHAR(255) NOT NULL
+);
+
 -- UserProfile Table
 CREATE TABLE UserProfiles (
   profile_id SERIAL PRIMARY KEY,
@@ -21,11 +27,7 @@ CREATE TABLE UserProfiles (
   class_id INTEGER REFERENCES CharacterClasses(class_id)
 );
 
--- Character classes
-CREATE TABLE CharacterClasses (
-  class_id SERIAL PRIMARY KEY,
-  class_name VARCHAR(255) NOT NULL
-);
+
 -- Workout Table
 CREATE TABLE Workouts (
   workout_id SERIAL PRIMARY KEY,

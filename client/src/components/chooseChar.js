@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/chooseChar.css';
 import warriorShot from '../assets/warriorShot.png';
 import wizardShot from '../assets/wizardShot.png';
@@ -7,6 +8,7 @@ import rogueShot from '../assets/rogueShot.png';
 
 function ChooseChar() {
   const [selectedClass, setSelectedClass] = useState(null);
+  const navigate = useNavigate();
 
   const characterClasses = [
     { name: 'Warrior', description: 'Workouts are tailored towards those who want to build muscle.', imgSrc: warriorShot },
@@ -19,9 +21,13 @@ function ChooseChar() {
     setSelectedClass(charClass);
   };
 
+  const handleChoose = () => {
+    navigate('/main');
+  };
+
   return (
     <div className="choosechar-container">
-      <h2>Choose Your Character, *username*</h2>
+      <h2>Welcome, *Username* click on the character cards to learn more about them. Then you are all set!</h2>
       <div className="choosechar-grid">
         {characterClasses.map((charClass) => (
           <div key={charClass.name} className="char-card" onClick={() => handleSelect(charClass)}>
@@ -35,8 +41,8 @@ function ChooseChar() {
         <div className="char-description">
           <h3>{selectedClass.name}</h3>
           <p>{selectedClass.description}</p>
-          <button onClick={() => alert(`You chose ${selectedClass.name}`)}>
-            Choose {selectedClass.name}
+          <button onClick={handleChoose}>
+            Begin Fitness Journey!
           </button>
         </div>
       )}
