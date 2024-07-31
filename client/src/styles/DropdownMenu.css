@@ -27,6 +27,7 @@
   top: 100%;
   left: 0; 
   transform: translateX(-85%); 
+  cursor: pointer;
 }
 
 .dropdown-menu a {
