@@ -17,17 +17,23 @@ function Main() {
     },
     {
       title: 'Progress',
-      description: ['Level', 'Stats', 'Achievments'],
+      description: ['Level', 'Stats', 'Achievements'],
     },
-  
   ];
 
   const handleDropdown = (index) => {
     setSelectedDropdown(selectedDropdown === index ? null : index);
   };
 
-  const handleSelectClass = (className) => {
-    navigate(`/workouts/${className.toLowerCase()}`);
+  const handleSelectClass = async (className) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/workouts/${className.toLowerCase()}`);
+      const data = await response.json();
+      console.log('Fetched data:', data); 
+      navigate('/workouts', { state: { workouts: data } });
+    } catch (error) {
+      console.error('Error fetching workouts:', error);
+    }
   };
 
   return (

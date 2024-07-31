@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Navbar from "./components/navbar";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import ChooseChar from './components/chooseChar';
 import Main from './components/Main';
-import Workout from './components/Workout';
+import Workouts from './components/Workouts';
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/classes" element={<ChooseChar />} />
           <Route path="/main" element={<Main />} />
-          <Route path="/workouts/:className" element={<Workout />} />
+          <Route path="/Workouts" element={<Workouts />} />
         </Routes>
       </div>
     </Router>
