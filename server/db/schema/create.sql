@@ -10,13 +10,6 @@ CREATE TABLE CharacterClasses (
   class_name VARCHAR(255) NOT NULL
 );
 
--- Insert data into CharacterClasses table
-INSERT INTO CharacterClasses (class_name) VALUES 
-('Warrior'),
-('Rogue'),
-('Archer'),
-('Wizard');
-
 -- Create Users table
 CREATE TABLE Users (
   user_id SERIAL PRIMARY KEY NOT NULL,
@@ -38,6 +31,7 @@ CREATE TABLE Workouts (
   workout_id SERIAL PRIMARY KEY,
   class_id INTEGER REFERENCES CharacterClasses(class_id),
   workout_type VARCHAR(255),
+  difficulty VARCHAR(255),
   duration INTEGER,
   date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

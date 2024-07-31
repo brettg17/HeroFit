@@ -69,6 +69,7 @@ function Workouts() {
                 <li><label><input type="checkbox" /> Legs</label></li>
                 <li><label><input type="checkbox" /> Chest</label></li>
                 <li><label><input type="checkbox" /> Biceps</label></li>
+                <li><label><input type="checkbox" /> Push/Pull</label></li>
                 <li><label><input type="checkbox" /> Traps</label></li>
                 <li><label><input type="checkbox" /> Back</label></li>
               </ul>
