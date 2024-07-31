@@ -5,10 +5,12 @@ import Login from "./components/Login";
 import ChooseChar from './components/chooseChar';
 import Main from './components/Main';
 import Workout from './components/Workout';
+import { AuthProvider } from './components/AuthContext';
 
 
 function App() {
   return (
+  <AuthProvider>  
     <Router>
       <div>
         <Navbar />
@@ -21,6 +23,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+  </AuthProvider>  
   );
 }
 

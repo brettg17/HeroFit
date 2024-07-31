@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 import '../styles/chooseChar.css';
 import warriorShot from '../assets/warriorShot.png';
 import wizardShot from '../assets/wizardShot.png';
@@ -9,6 +10,7 @@ import rogueShot from '../assets/rogueShot.png';
 function ChooseChar() {
   const [selectedClass, setSelectedClass] = useState(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const characterClasses = [
     { name: 'Warrior', description: 'Workouts are tailored towards those who want to build muscle.', imgSrc: warriorShot },
@@ -27,7 +29,8 @@ function ChooseChar() {
 
   return (
     <div className="choosechar-container">
-      <h2>Welcome, *Username* click on the character cards to learn more about them. Then you are all set!</h2>
+      <h2>Welcome, {user?.username || 'Guest'}! </h2>
+      <h2>Click on a character card to learn more about them. </h2>
       <div className="choosechar-grid">
         {characterClasses.map((charClass) => (
           <div key={charClass.name} className="char-card" onClick={() => handleSelect(charClass)}>
