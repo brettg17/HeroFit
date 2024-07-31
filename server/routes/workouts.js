@@ -8,7 +8,6 @@ router.get('/:className', async (req, res) => {
   console.log(`Received request for class: ${className}`); 
 
   try {
-    // Get the class ID for the given class name (case insensitive)
     const classResult = await pool.query('SELECT class_id FROM CharacterClasses WHERE LOWER(class_name) = LOWER($1)', [className]);
     console.log('Class result:', classResult.rows); 
 
@@ -18,7 +17,6 @@ router.get('/:className', async (req, res) => {
 
     const classId = classResult.rows[0].class_id;
 
-    // Get workouts for the class ID
     const workoutsResult = await pool.query('SELECT * FROM Workouts WHERE class_id = $1', [classId]);
     console.log('Workouts result:', workoutsResult.rows); 
 
