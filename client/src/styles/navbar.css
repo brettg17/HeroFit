@@ -8,11 +8,12 @@
   background-color: aliceblue;
 }
 
-.Herofit {
+.HeroFit {
   font-size: 2em; 
   font-weight: bold;
   color: black;
   font-family: 'Fira Sans', Arial, sans-serif; 
+  text-decoration: none; 
 }
 
 ul {

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Signup.css';
+import { useAuth } from './AuthContext';
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -9,15 +10,21 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!username || !email || !password) {
+      setError("All fields are required");
+      return;
+    }
     try {
       const response = await axios.post('http://localhost:5000/api/auth/signup', {
         username,
         email,
         password,
       });
+      login(response.data);
       navigate('/classes');
     } catch (err) {
       setError(err.response?.data?.error || 'Signup failed');
