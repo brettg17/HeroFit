@@ -55,7 +55,7 @@ function Main() {
                 </button>
                 {selectedDropdown === index && (
                   <div className="dropdown-menu">
-                    {['Warrior', 'Mage', 'Archer', 'Rogue'].map((charClass) => (
+                    {['Warrior', 'Wizard', 'Archer', 'Rogue'].map((charClass) => (
                       <button key={charClass} onClick={() => handleSelectClass(charClass)}>
                         {charClass}
                       </button>

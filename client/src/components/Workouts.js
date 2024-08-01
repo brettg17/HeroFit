@@ -5,10 +5,12 @@ import '../styles/Workouts.css';
 function Workouts() {
   const [durationVisible, setDurationVisible] = useState(true);
   const [intensityVisible, setIntensityVisible] = useState(true);
-  const [musclesVisible, setMusclesVisible] = useState(true);
   const location = useLocation();
   const { state } = location;
   const workouts = state ? state.workouts : [];
+
+  const [selectedDuration, setSelectedDuration] = useState(null);
+  const [selectedIntensity, setSelectedIntensity] = useState([]);
 
   const toggleDuration = () => {
     setDurationVisible(!durationVisible);
@@ -18,14 +20,32 @@ function Workouts() {
     setIntensityVisible(!intensityVisible);
   };
 
-  const toggleMuscles = () => {
-    setMusclesVisible(!musclesVisible);
+  const handleDurationChange = (event) => {
+    const value = event.target.value;
+    setSelectedDuration(prevState => (prevState === value ? null : value));
   };
 
-  const uniqueWorkouts = Array.from(new Set(workouts.map(workout => workout.workout_type)))
-    .map(workout_type => {
-      return workouts.find(workout => workout.workout_type === workout_type);
-    });
+  const handleIntensityChange = (event) => {
+    const value = event.target.value;
+    setSelectedIntensity(prevState =>
+      prevState.includes(value)
+        ? prevState.filter(i => i !== value)
+        : [...prevState, value]
+    );
+  };
+
+  const filterWorkouts = () => {
+    const filteredByIntensity = selectedIntensity.length === 0
+      ? workouts
+      : workouts.filter(workout => selectedIntensity.includes(workout.difficulty));
+
+    if (!selectedDuration) return filteredByIntensity;
+
+    const numWorkouts = Math.floor(selectedDuration / 7.5);
+    return filteredByIntensity.slice(0, numWorkouts);
+  };
+
+  const filteredWorkouts = filterWorkouts();
 
   return (
     <div className="workouts-container">
@@ -39,9 +59,9 @@ function Workouts() {
             <div className={`filter-content ${durationVisible ? '' : 'collapsed'}`}>
               <h3>Duration</h3>
               <ul>
-                <li><label><input type="checkbox" /> 60 minutes</label></li>
-                <li><label><input type="checkbox" /> 45 minutes</label></li>
-                <li><label><input type="checkbox" /> 30 minutes</label></li>
+                <li><label><input type="checkbox" value="30" onChange={handleDurationChange} checked={selectedDuration === '30'} /> 30 minutes</label></li>
+                <li><label><input type="checkbox" value="45" onChange={handleDurationChange} checked={selectedDuration === '45'} /> 45 minutes</label></li>
+                <li><label><input type="checkbox" value="60" onChange={handleDurationChange} checked={selectedDuration === '60'} /> 60 minutes</label></li>
               </ul>
             </div>
           </div>
@@ -52,38 +72,20 @@ function Workouts() {
             <div className={`filter-content ${intensityVisible ? '' : 'collapsed'}`}>
               <h3>Intensity</h3>
               <ul>
-                <li><label><input type="checkbox" /> HIIT</label></li>
-                <li><label><input type="checkbox" /> Hard</label></li>
-                <li><label><input type="checkbox" /> Medium</label></li>
-                <li><label><input type="checkbox" /> Easy</label></li>
-              </ul>
-            </div>
-          </div>
-          <div className="filter">
-            <button onClick={toggleMuscles}>
-              {musclesVisible ? 'Hide Targeted Muscles' : 'Show Targeted Muscles'}
-            </button>
-            <div className={`filter-content ${musclesVisible ? '' : 'collapsed'}`}>
-              <h3>Targeted Muscle</h3>
-              <ul>
-                <li><label><input type="checkbox" /> Legs</label></li>
-                <li><label><input type="checkbox" /> Chest</label></li>
-                <li><label><input type="checkbox" /> Biceps</label></li>
-                <li><label><input type="checkbox" /> Push/Pull</label></li>
-                <li><label><input type="checkbox" /> Traps</label></li>
-                <li><label><input type="checkbox" /> Back</label></li>
+                <li><label><input type="checkbox" value="Easy" onChange={handleIntensityChange} /> Easy</label></li>
+                <li><label><input type="checkbox" value="Medium" onChange={handleIntensityChange} /> Medium</label></li>
+                <li><label><input type="checkbox" value="Hard" onChange={handleIntensityChange} /> Hard</label></li>
               </ul>
             </div>
           </div>
         </div>
         <div className="workouts-list">
-          <h2>{uniqueWorkouts.length} Workouts Found</h2>
+          <h2>{filteredWorkouts.length} Workouts Found</h2>
           <div className="workout-cards">
-            {uniqueWorkouts.map((workout, index) => (
+            {filteredWorkouts.map((workout, index) => (
               <div key={index} className="workout-card">
                 <div className="workout-details">
                   <h3>{workout.workout_type}</h3>
-                  <p>{workout.duration} minutes</p>
                 </div>
               </div>
             ))}
