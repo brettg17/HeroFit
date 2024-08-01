@@ -1,0 +1,116 @@
+.workouts-container {
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.workout-page {
+  display: flex;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  margin-right: 20px;
+}
+
+.filter {
+  margin-bottom: 20px;
+}
+
+.filter h3 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.filter ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: 80px;
+}
+
+.filter li {
+  margin-bottom: 5px;
+}
+
+.filter label {
+  display: flex;
+  align-items: center;
+}
+
+.filter input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.filter-content.collapsed {
+  display: none;
+}
+
+.filter-container button {
+  margin-bottom: 10px;
+}
+
+.workouts-list {
+  text-align: left;
+  width: 75%;
+}
+
+.workouts-list h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.workout-cards {
+  display: flex;
+  flex-direction: column;
+}
+
+.workout-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+.workout-card:hover {
+  background-color: #e0e0e0;
+}
+
+.workout-details h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.workout-details p {
+  margin: 5px 0 0;
+  font-size: 1em;
+}
+
+
+.filter-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-content ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-content ul li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
