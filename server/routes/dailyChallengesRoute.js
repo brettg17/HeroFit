@@ -1,20 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db");
 
-// Helper function to get a random subset of items
-const getRandomSubset = (array, numItems) => {
-  const shuffled = array.sort(() => 0.5 - Math.random()); // Shuffle array
-  return shuffled.slice(0, numItems); // Return the first `numItems` items
+// Helper function to shuffle an array and get a subset
+const getRandomSubset = (array, size) => {
+  const shuffled = array.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, size);
 };
 
-// Get daily challenges filtered by class_id
+
 router.get("/", async (req, res) => {
   try {
-    const { class_id } = req.query;
-    console.log(`Received class_id: ${class_id}`); // Debugging line
-
-    // Updated mock data with class_id
+    // Mock data with various class_id values
     const allChallenges = [
       { workout_id: 1, workout_type: 'Bench Press', difficulty: 'Easy', duration: 7.5, class_id: 1 },
       { workout_id: 2, workout_type: 'Squats', difficulty: 'Easy', duration: 7.5, class_id: 1 },
@@ -25,16 +21,10 @@ router.get("/", async (req, res) => {
       { workout_id: 7, workout_type: 'Burpees', difficulty: 'Hard', duration: 8, class_id: 2 }
     ];
 
-    // Filter challenges based on class_id if provided
-    const filteredChallenges = class_id 
-      ? allChallenges.filter(challenge => challenge.class_id == class_id)
-      : allChallenges;
-    
-    console.log(`Filtered challenges: ${JSON.stringify(filteredChallenges)}`); // Debugging line
+    // Get a random subset of 3 challenges from the entire list
+    const randomChallenges = getRandomSubset(allChallenges, 3);
 
-    // Get 3 random challenges from the filtered list
-    const randomChallenges = getRandomSubset(filteredChallenges, 3);
-    
+
     res.status(200).json(randomChallenges);
   } catch (error) {
     res.status(500).json({ error: error.message });

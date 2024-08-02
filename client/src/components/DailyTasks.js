@@ -23,10 +23,10 @@ const DailyTasks = () => {
   const [collapsed, setCollapsed] = useState({}); 
   const [inProgress, setInProgress] = useState({}); 
 
-  const class_id = 1; // Example class_id for testing
+  const class_id = 1; 
 
   useEffect(() => {
-    fetch(`http://localhost:5001/api/daily-challenges?class_id=${class_id}`)
+    fetch(`http://localhost:5001/api/daily-challenges`)
       .then(response => response.json())
       .then(data => {
         setChallenges(data);
