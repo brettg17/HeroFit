@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/Workouts.css';
+import { useAuth } from './AuthContext';
 
 function Workouts() {
   const [durationVisible, setDurationVisible] = useState(true);
@@ -8,9 +10,13 @@ function Workouts() {
   const location = useLocation();
   const { state } = location;
   const workouts = state ? state.workouts : [];
+  const { user } = useAuth();
 
   const [selectedDuration, setSelectedDuration] = useState(null);
   const [selectedIntensity, setSelectedIntensity] = useState([]);
+  const [descriptionsVisible, setDescriptionsVisible] = useState(
+    Array(workouts.length).fill(false)
+  );
 
   const toggleDuration = () => {
     setDurationVisible(!durationVisible);
@@ -34,6 +40,14 @@ function Workouts() {
     );
   };
 
+  const toggleDescription = (index) => {
+    setDescriptionsVisible((prevDescriptionsVisible) => {
+      const newDescriptionsVisible = [...prevDescriptionsVisible];
+      newDescriptionsVisible[index] = !newDescriptionsVisible[index];
+      return newDescriptionsVisible;
+    });
+  };
+
   const filterWorkouts = () => {
     const filteredByIntensity = selectedIntensity.length === 0
       ? workouts
@@ -43,6 +57,57 @@ function Workouts() {
 
     const numWorkouts = Math.floor(selectedDuration / 7.5);
     return filteredByIntensity.slice(0, numWorkouts);
+  };
+
+  const handleWorkoutComplete = async () => {
+    const filteredWorkouts = filterWorkouts();
+    const xpGained = filteredWorkouts.reduce((total, workout) => {
+      switch (workout.difficulty) {
+        case 'Easy':
+          return total + 10;
+        case 'Medium':
+          return total + 15;
+        case 'Hard':
+          return total + 20;
+        default:
+          return total;
+      }
+    }, 0);
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/xp/update-xp', {
+        userId: user.user_id,
+        classId: state.classId,
+        xpGained,
+      });
+
+      const { 
+        message, 
+        warriorXP, warriorLevel, 
+        rogueXP, rogueLevel, 
+        archerXP, archerLevel, 
+        wizardXP, wizardLevel, 
+        characterLevel 
+      } = response.data;
+
+      const classLevels = {
+        1: { xp: warriorXP, level: warriorLevel },
+        2: { xp: rogueXP, level: rogueLevel },
+        3: { xp: archerXP, level: archerLevel },
+        4: { xp: wizardXP, level: wizardLevel }
+      };
+
+      const currentClassLevel = classLevels[state.classId];
+
+      alert(`
+        ${message}
+        Class XP: ${currentClassLevel.xp}, Class Level: ${currentClassLevel.level}
+        Character Level: ${characterLevel}
+      `);
+    } catch (error) {
+      console.error('Error updating XP:', error);
+      alert('Error updating XP: ' + (error.response?.data?.error || error.message));
+    }
   };
 
   const filteredWorkouts = filterWorkouts();
@@ -78,6 +143,7 @@ function Workouts() {
               </ul>
             </div>
           </div>
+          <button onClick={handleWorkoutComplete}>Workout Complete</button>
         </div>
         <div className="workouts-list">
           <h2>{filteredWorkouts.length} Workouts Found</h2>
@@ -86,6 +152,11 @@ function Workouts() {
               <div key={index} className="workout-card">
                 <div className="workout-details">
                   <h3>{workout.workout_type}</h3>
+                  <p>{workout.duration} minutes</p>
+                  <button onClick={() => toggleDescription(index)}>
+                    {descriptionsVisible[index] ? 'Hide Description' : 'Show Description'}
+                  </button>
+                  {descriptionsVisible[index] && <p>{workout.description}</p>}
                 </div>
               </div>
             ))}
