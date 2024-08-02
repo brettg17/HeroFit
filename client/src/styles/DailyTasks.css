@@ -16,19 +16,24 @@
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
+.challenge:hover {
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4); 
+  transform: translateY(-5px); 
+}
+
 .challenge.collapsed {
-  padding: 15px 15px 15px 20px; /* Adjust left padding for more left alignment */
-  background-color: #f0f0f0; /* Lighter background for collapsed state */
-  text-align: left; /* Ensure text is left-aligned */
+  padding: 15px 15px 15px 20px;
+  background-color: #f0f0f0; 
+  text-align: left; 
 }
 
 .challenge.collapsed .challenge-title {
-  color: #555; /* Dark gray for collapsed state */
+  color: #555; 
 }
 
 .toggle-button {
   position: absolute;
-  top: 2px; /* Move the button up a few pixels */
+  top: 2px; 
   right: 10px;
   background-color: #007BFF;
   color: white;
@@ -120,7 +125,6 @@
   cursor: not-allowed;
 }
 
-/* Status text styling */
 .status {
   font-weight: bold;
   margin-left: 10px;
