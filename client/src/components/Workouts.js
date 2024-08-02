@@ -12,8 +12,7 @@ function Workouts() {
 
   const [selectedDuration, setSelectedDuration] = useState(null);
   const [selectedIntensity, setSelectedIntensity] = useState([]);
-  const [descriptionVisible, setDescriptionVisible] = useState({});
-  const [user, setUser] = useState({ userId: 1, experience: 0, level: 1 }); // Example user state
+  const [visibleDescriptions, setVisibleDescriptions] = useState({});
 
   const toggleDuration = () => {
     setDurationVisible(!durationVisible);
@@ -51,28 +50,26 @@ function Workouts() {
   const filteredWorkouts = filterWorkouts();
 
   const toggleDescription = (index) => {
-    setDescriptionVisible(prevState => ({
+    setVisibleDescriptions(prevState => ({
       ...prevState,
       [index]: !prevState[index]
     }));
   };
 
-  const handleWorkoutComplete = async (workoutId) => {
+  const handleWorkoutComplete = async (classId, userId, xpGained) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/users/update-xp', {
-        userId: user.userId,
-        xpGained: 10 // Example XP gained per workout
+      const response = await axios.post('http://localhost:5000/api/xp/update-xp', { 
+        userId,
+        classId,
+        xpGained
       });
 
-      const { newExperience, newLevel } = response.data;
-      setUser(prevState => ({
-        ...prevState,
-        experience: newExperience,
-        level: newLevel
-      }));
-      alert(`Workout complete! New XP: ${newExperience}, New Level: ${newLevel}`);
-    } catch (err) {
-      console.error('Error updating XP:', err);
+      const { xp, level, overallLevel } = response.data;
+      alert(`XP updated successfully!
+Class XP: ${xp}, Class Level: ${level}, Character Level: ${overallLevel.toFixed(2)}`);
+    } catch (error) {
+      console.error('Error updating XP:', error);
+      alert('Failed to update XP');
     }
   };
 
@@ -116,14 +113,14 @@ function Workouts() {
                 <div className="workout-details">
                   <h3>{workout.workout_type}</h3>
                   <p>{workout.duration} minutes</p>
-                  <p>{workout.sets_reps}</p>
                   <button onClick={() => toggleDescription(index)}>
-                    {descriptionVisible[index] ? 'Hide Description' : 'Show Description'}
+                    {visibleDescriptions[index] ? 'Hide Description' : 'Show Description'}
                   </button>
-                  {descriptionVisible[index] && <p>{workout.description}</p>}
-                  <button onClick={() => handleWorkoutComplete(workout.workout_id)}>
+                  <button onClick={() => handleWorkoutComplete(workout.class_id, 1, 10)}>
                     Workout Complete
                   </button>
+                  
+                  {visibleDescriptions[index] && <p>{workout.description}</p>}
                 </div>
               </div>
             ))}
