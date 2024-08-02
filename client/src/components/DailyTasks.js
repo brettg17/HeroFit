@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './DailyTasks.css';
+import '../styles/DailyTasks.css';
+
 
 const getClassName = (classId) => {
   switch (classId) {
