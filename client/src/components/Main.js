@@ -27,7 +27,7 @@ function Main() {
 
   const handleSelectClass = async (className) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/workouts/${className.toLowerCase()}`);
+      const response = await fetch(`http://localhost:5001/api/workouts/${className.toLowerCase()}`);
       const data = await response.json();
       console.log('Fetched data:', data); 
       navigate('/workouts', { state: { workouts: data } });

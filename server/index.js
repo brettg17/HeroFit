@@ -6,8 +6,10 @@ const pool = require('./db');
 const homeRoute = require("./routes/homeRoute");
 const loginRoute = require("./routes/loginRoute");
 const signupRoute = require("./routes/signupRoute");
-const dailyChallengesRoute = require("./routes/dailyChallengesRoute");
 const workoutRoute = require('./routes/workouts'); 
+const dailyChallengesRoute = require('./routes/dailyChallengesRoute');
+
+
 const app = express();
 
 
@@ -19,10 +21,11 @@ app.use(express.json());
 app.use("/api/home", homeRoute);
 app.use("/api/auth", loginRoute);
 app.use("/api/auth", signupRoute);
-app.use("/api", dailyChallengesRoute);
 app.use('/api/workouts', workoutRoute);
+app.use('/api/daily-challenges', dailyChallengesRoute);
 
-const PORT = process.env.PORT || 5000;
+
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

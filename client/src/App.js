@@ -5,7 +5,10 @@ import Login from "./components/Login";
 import ChooseChar from './components/chooseChar';
 import Main from './components/Main';
 import Workouts from './components/Workouts';
+import DailyTasks from "./components/DailyTasks";
 import { AuthProvider } from './components/AuthContext';
+
+
 
 
 function App() {
@@ -20,6 +23,7 @@ function App() {
           <Route path="/classes" element={<ChooseChar />} />
           <Route path="/main" element={<Main />} />
           <Route path="/Workouts" element={<Workouts />} />
+          <Route path="/daily-challenges" element={<DailyTasks />} />
         </Routes>
       </div>
     </Router>
