@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import '../styles/Main.css';
 
 function Main() {
   const [selectedDropdown, setSelectedDropdown] = useState(null);
+  const [workouts, setWorkouts] = useState([]);
   const navigate = useNavigate();
 
   const sections = [
@@ -26,15 +27,28 @@ function Main() {
   };
 
   const handleSelectClass = async (className) => {
+    const classIdMap = {
+      Warrior: 1,
+      Rogue: 2,
+      Archer: 3,
+      Wizard: 4
+    };
+
+    const classId = classIdMap[className];
+    if (!classId) {
+      console.error('Invalid class name:', className);
+      return;
+    }
+
     try {
       const response = await fetch(`http://localhost:5000/api/workouts/${className.toLowerCase()}`);
       const data = await response.json();
-      console.log('Fetched data:', data); 
-      navigate('/workouts', { state: { workouts: data } });
+      setWorkouts(data);
+      navigate('/workouts', { state: { workouts: data, classId } });
     } catch (error) {
       console.error('Error fetching workouts:', error);
     }
-  };
+  }
 
   return (
     <div className="main-container">
@@ -55,7 +69,7 @@ function Main() {
                 </button>
                 {selectedDropdown === index && (
                   <div className="dropdown-menu">
-                    {['Warrior', 'Wizard', 'Archer', 'Rogue'].map((charClass) => (
+                    {['Warrior', 'Mage', 'Archer', 'Rogue'].map((charClass) => (
                       <button key={charClass} onClick={() => handleSelectClass(charClass)}>
                         {charClass}
                       </button>

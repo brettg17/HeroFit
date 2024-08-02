@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Workouts.css';
+import { useAuth } from './AuthContext';
 
 function Workouts() {
   const [durationVisible, setDurationVisible] = useState(true);
@@ -9,10 +10,13 @@ function Workouts() {
   const location = useLocation();
   const { state } = location;
   const workouts = state ? state.workouts : [];
+  const { user } = useAuth();
 
   const [selectedDuration, setSelectedDuration] = useState(null);
   const [selectedIntensity, setSelectedIntensity] = useState([]);
-  const [visibleDescriptions, setVisibleDescriptions] = useState({});
+  const [descriptionsVisible, setDescriptionsVisible] = useState(
+    Array(workouts.length).fill(false)
+  );
 
   const toggleDuration = () => {
     setDurationVisible(!durationVisible);
@@ -36,6 +40,14 @@ function Workouts() {
     );
   };
 
+  const toggleDescription = (index) => {
+    setDescriptionsVisible((prevDescriptionsVisible) => {
+      const newDescriptionsVisible = [...prevDescriptionsVisible];
+      newDescriptionsVisible[index] = !newDescriptionsVisible[index];
+      return newDescriptionsVisible;
+    });
+  };
+
   const filterWorkouts = () => {
     const filteredByIntensity = selectedIntensity.length === 0
       ? workouts
@@ -47,31 +59,58 @@ function Workouts() {
     return filteredByIntensity.slice(0, numWorkouts);
   };
 
-  const filteredWorkouts = filterWorkouts();
+  const handleWorkoutComplete = async () => {
+    const filteredWorkouts = filterWorkouts();
+    const xpGained = filteredWorkouts.reduce((total, workout) => {
+      switch (workout.difficulty) {
+        case 'Easy':
+          return total + 10;
+        case 'Medium':
+          return total + 15;
+        case 'Hard':
+          return total + 20;
+        default:
+          return total;
+      }
+    }, 0);
 
-  const toggleDescription = (index) => {
-    setVisibleDescriptions(prevState => ({
-      ...prevState,
-      [index]: !prevState[index]
-    }));
-  };
-
-  const handleWorkoutComplete = async (classId, userId, xpGained) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/xp/update-xp', { 
-        userId,
-        classId,
-        xpGained
+      const response = await axios.post('http://localhost:5000/api/xp/update-xp', {
+        userId: user.user_id,
+        classId: state.classId,
+        xpGained,
       });
 
-      const { xp, level, overallLevel } = response.data;
-      alert(`XP updated successfully!
-Class XP: ${xp}, Class Level: ${level}, Character Level: ${overallLevel.toFixed(2)}`);
+      const { 
+        message, 
+        warriorXP, warriorLevel, 
+        rogueXP, rogueLevel, 
+        archerXP, archerLevel, 
+        wizardXP, wizardLevel, 
+        characterLevel 
+      } = response.data;
+
+      const classLevels = {
+        1: { xp: warriorXP, level: warriorLevel },
+        2: { xp: rogueXP, level: rogueLevel },
+        3: { xp: archerXP, level: archerLevel },
+        4: { xp: wizardXP, level: wizardLevel }
+      };
+
+      const currentClassLevel = classLevels[state.classId];
+
+      alert(`
+        ${message}
+        Class XP: ${currentClassLevel.xp}, Class Level: ${currentClassLevel.level}
+        Character Level: ${characterLevel}
+      `);
     } catch (error) {
       console.error('Error updating XP:', error);
-      alert('Failed to update XP');
+      alert('Error updating XP: ' + (error.response?.data?.error || error.message));
     }
   };
+
+  const filteredWorkouts = filterWorkouts();
 
   return (
     <div className="workouts-container">
@@ -104,6 +143,7 @@ Class XP: ${xp}, Class Level: ${level}, Character Level: ${overallLevel.toFixed(
               </ul>
             </div>
           </div>
+          <button onClick={handleWorkoutComplete}>Workout Complete</button>
         </div>
         <div className="workouts-list">
           <h2>{filteredWorkouts.length} Workouts Found</h2>
@@ -114,13 +154,9 @@ Class XP: ${xp}, Class Level: ${level}, Character Level: ${overallLevel.toFixed(
                   <h3>{workout.workout_type}</h3>
                   <p>{workout.duration} minutes</p>
                   <button onClick={() => toggleDescription(index)}>
-                    {visibleDescriptions[index] ? 'Hide Description' : 'Show Description'}
+                    {descriptionsVisible[index] ? 'Hide Description' : 'Show Description'}
                   </button>
-                  <button onClick={() => handleWorkoutComplete(workout.class_id, 1, 10)}>
-                    Workout Complete
-                  </button>
-                  
-                  {visibleDescriptions[index] && <p>{workout.description}</p>}
+                  {descriptionsVisible[index] && <p>{workout.description}</p>}
                 </div>
               </div>
             ))}
