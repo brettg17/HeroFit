@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/Workouts.css';
 
 function Workouts() {
@@ -11,6 +12,8 @@ function Workouts() {
 
   const [selectedDuration, setSelectedDuration] = useState(null);
   const [selectedIntensity, setSelectedIntensity] = useState([]);
+  const [descriptionVisible, setDescriptionVisible] = useState({});
+  const [user, setUser] = useState({ userId: 1, experience: 0, level: 1 }); // Example user state
 
   const toggleDuration = () => {
     setDurationVisible(!durationVisible);
@@ -46,6 +49,32 @@ function Workouts() {
   };
 
   const filteredWorkouts = filterWorkouts();
+
+  const toggleDescription = (index) => {
+    setDescriptionVisible(prevState => ({
+      ...prevState,
+      [index]: !prevState[index]
+    }));
+  };
+
+  const handleWorkoutComplete = async (workoutId) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/users/update-xp', {
+        userId: user.userId,
+        xpGained: 10 // Example XP gained per workout
+      });
+
+      const { newExperience, newLevel } = response.data;
+      setUser(prevState => ({
+        ...prevState,
+        experience: newExperience,
+        level: newLevel
+      }));
+      alert(`Workout complete! New XP: ${newExperience}, New Level: ${newLevel}`);
+    } catch (err) {
+      console.error('Error updating XP:', err);
+    }
+  };
 
   return (
     <div className="workouts-container">
@@ -86,6 +115,15 @@ function Workouts() {
               <div key={index} className="workout-card">
                 <div className="workout-details">
                   <h3>{workout.workout_type}</h3>
+                  <p>{workout.duration} minutes</p>
+                  <p>{workout.sets_reps}</p>
+                  <button onClick={() => toggleDescription(index)}>
+                    {descriptionVisible[index] ? 'Hide Description' : 'Show Description'}
+                  </button>
+                  {descriptionVisible[index] && <p>{workout.description}</p>}
+                  <button onClick={() => handleWorkoutComplete(workout.workout_id)}>
+                    Workout Complete
+                  </button>
                 </div>
               </div>
             ))}
