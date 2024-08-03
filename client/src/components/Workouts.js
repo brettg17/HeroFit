@@ -75,7 +75,7 @@ function Workouts() {
     }, 0);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/xp/update-xp', {
+      const response = await axios.post('http://localhost:5001/api/xp/update-xp', {
         userId: user.user_id,
         classId: state.classId,
         xpGained,

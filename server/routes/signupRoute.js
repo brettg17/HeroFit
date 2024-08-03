@@ -14,12 +14,21 @@ router.post("/signup", async (req, res) => {
     }
 
     const result = await pool.query(
-      "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
+      "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING user_id",
       [username, email, password]
     );
+
+    const userId = result.rows[0].user_id;
+
+
+    await pool.query(
+      "INSERT INTO UserProfiles (user_id, class_id) VALUES ($1, $2)",
+      [userId, 1] 
+    );
+
     res.status(201).json(result.rows[0]);
   } catch (error) {
-    // Check if error if email isnt unique
+
     if (error.code === '23505') {
       return res.status(400).json({ error: "Email already in use" });
     }
