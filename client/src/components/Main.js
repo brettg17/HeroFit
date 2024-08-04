@@ -3,27 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Main.css';
 
 function Main() {
-  const [selectedDropdown, setSelectedDropdown] = useState(null);
+  const [selectedDropdown, setSelectedDropdown] = useState(false);
   const [workouts, setWorkouts] = useState([]);
   const navigate = useNavigate();
 
-  const sections = [
-    {
-      title: 'Workout Plans',
-      description: ['Daily Workouts', 'Fast Workouts', 'HIIT Workouts'],
-    },
-    {
-      title: 'Daily Challenges',
-      description: [''],
-    },
-    {
-      title: 'Progress',
-      description: ['Level', 'Stats', 'Achievements'],
-    },
-  ];
-
-  const handleDropdown = (index) => {
-    setSelectedDropdown(selectedDropdown === index ? null : index);
+  const handleDropdown = () => {
+    setSelectedDropdown(!selectedDropdown);
   };
 
   const handleSelectClass = async (className) => {
@@ -31,7 +16,7 @@ function Main() {
       Warrior: 1,
       Rogue: 2,
       Archer: 3,
-      Wizard: 4
+      Wizard: 4,
     };
 
     const classId = classIdMap[className];
@@ -48,38 +33,61 @@ function Main() {
     } catch (error) {
       console.error('Error fetching workouts:', error);
     }
-  }
+  };
+
+  const handleDailyChallengesClick = () => {
+    navigate('/daily-challenges');
+  };
+
+  const handleProgressClick = () => {
+    navigate('/progress');
+  };
 
   return (
     <div className="main-container">
       <h1>Home</h1>
       <div className="sections-grid">
-        {sections.map((section, index) => (
-          <div key={index} className="section-card">
-            <div className="section-content">
-              <h2>{section.title}</h2>
-              <ul>
-                {section.description.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-              <div className="dropdown">
-                <button onClick={() => handleDropdown(index)}>
-                  {section.title}
-                </button>
-                {selectedDropdown === index && (
-                  <div className="dropdown-menu">
-                    {['Warrior', 'Mage', 'Archer', 'Rogue'].map((charClass) => (
-                      <button key={charClass} onClick={() => handleSelectClass(charClass)}>
-                        {charClass}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+        <div className="section-card">
+          <div className="section-content">
+            <h2>Workout Plans</h2>
+            <ul>
+              <li>Daily Workouts</li>
+              <li>Fast Workouts</li>
+              <li>HIIT Workouts</li>
+            </ul>
+            <div className="dropdown">
+              <button onClick={handleDropdown}>
+                Workout Plans
+              </button>
+              {selectedDropdown && (
+                <div className="dropdown-workouts">
+                  {['Warrior', 'Mage', 'Archer', 'Rogue'].map((charClass) => (
+                    <button key={charClass} onClick={() => handleSelectClass(charClass)}>
+                      {charClass}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-        ))}
+        </div>
+        <div className="section-card">
+          <div className="section-content">
+            <h2>Daily Challenges</h2>
+            <button onClick={handleDailyChallengesClick} className="card-button">Daily Challenges</button>
+          </div>
+        </div>
+        <div className="section-card">
+          <div className="section-content">
+            <h2>Progress</h2>
+            <ul>
+              <li>Level</li>
+              <li>Stats</li>
+              <li>Achievements</li>
+            </ul>
+            <button onClick={handleProgressClick} className="card-button">Progress</button>
+          </div>
+        </div>
       </div>
     </div>
   );
