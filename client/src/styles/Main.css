@@ -77,20 +77,20 @@ h1 {
   position: relative;
 }
 
-.dropdown-menu {
+.dropdown-workouts {
   position: absolute;
-  top: 100%; /* Align dropdown below the button */
+  top: 100%; 
   left: 0;
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   margin-top: 5px;
-  z-index: 1000; /* Ensure dropdown is above other elements */
-  width: 100%;
+  z-index: 1000; 
+  width: 180%;
 }
 
-.dropdown-menu button {
+.dropdown-workouts button {
   background-color: white;
   color: black;
   border: none;
@@ -102,6 +102,6 @@ h1 {
   transition: background-color 0.3s;
 }
 
-.dropdown-menu button:hover {
+.dropdown-workouts button:hover {
   background-color: #f5f5f5;
 }
