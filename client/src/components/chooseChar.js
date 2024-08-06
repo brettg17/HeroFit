@@ -6,6 +6,10 @@ import warriorShot from '../assets/warriorShot.png';
 import wizardShot from '../assets/wizardShot.png';
 import archerShot from '../assets/archerShot.png';
 import rogueShot from '../assets/rogueShot.png';
+import warrior from '../assets/fitApp-pictures/warrior.jpeg';
+import wizard from '../assets/fitApp-pictures/wizard.jpeg';
+import archer from '../assets/fitApp-pictures/archer.jpeg';
+import rogue from '../assets/fitApp-pictures/rogue.jpeg';
 
 function ChooseChar() {
   const [selectedClass, setSelectedClass] = useState(null);
@@ -13,10 +17,10 @@ function ChooseChar() {
   const { user } = useAuth();
 
   const characterClasses = [
-    { name: 'Warrior', description: 'Workouts are tailored towards those who want to build muscle.', imgSrc: warriorShot },
-    { name: 'Wizard', description: 'Workouts are for those who simply want to get into better shape.', imgSrc: wizardShot },
-    { name: 'Archer', description: 'Workouts are tailored to those who want to slim down.', imgSrc: archerShot },
-    { name: 'Rogue', description: 'Workouts are tailored to those who went to work on flexibility.', imgSrc: rogueShot },
+    { name: 'Warrior', description: 'Workouts are tailored towards those who want to build muscle.', imgSrc: warrior },
+    { name: 'Wizard', description: 'Workouts are for those who simply want to get into better shape.', imgSrc: wizard },
+    { name: 'Archer', description: 'Workouts are tailored to those who want to slim down.', imgSrc: archer },
+    { name: 'Rogue', description: 'Workouts are tailored to those who went to work on flexibility.', imgSrc: rogue },
   ];
 
   const handleSelect = (charClass) => {

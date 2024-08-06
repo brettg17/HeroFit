@@ -30,7 +30,7 @@ function DropdownMenu() {
       </button>
       {isOpen && (
         <div className="dropdown-menu">
-          <a onClick={() => navigate('/profile')} className="profile-link">
+          <a onClick={() => navigate(`/my-profile/${user.username}`)} className="profile-link">
             <FontAwesomeIcon icon={faUser} className="fa-icon" /> View My Profile
             <span className="username">{user.username}</span>
           </a>

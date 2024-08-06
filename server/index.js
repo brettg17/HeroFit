@@ -9,6 +9,7 @@ const signupRoute = require('./routes/signupRoute');
 const workoutRoute = require('./routes/workouts');
 const xpRoute = require('./routes/xpRoute');
 const dailyChallengesRoute = require('./routes/dailyChallengesRoute');
+const profileRoute = require('./routes/profileRoute');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/api/auth', signupRoute);
 app.use('/api/workouts', workoutRoute);
 app.use('/api/xp', xpRoute);
 app.use('/api/daily-challenges', dailyChallengesRoute);
+app.use('/api', profileRoute);
 
 const PORT = process.env.PORT || 5001;
 
