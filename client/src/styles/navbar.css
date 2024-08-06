@@ -5,15 +5,20 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5em 1em;
-  background-color: aliceblue;
+  background-color: #173B45;
+  border-radius: 1px;
 }
 
 .HeroFit {
   font-size: 2em; 
   font-weight: bold;
-  color: black;
+  color: #F8EDED;
   font-family: 'Fira Sans', Arial, sans-serif; 
   text-decoration: none; 
+}
+
+.HeroFit:hover {
+  color: #FF8225;
 }
 
 ul {
@@ -24,12 +29,19 @@ ul {
   gap: 1em;
 }
 
-a {
-  color: black;
+ul li a {
+  font-size: 1.25em;
+  color: #F8EDED;
   text-decoration: none;
   font-family: 'Fira Sans', Arial, sans-serif; 
+  border: 2px solid #F8EDED;
+  padding: 0.25em;
+  margin: 0.5em;
+  border-radius: 5px;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 
-a:hover {
-  color: #1bc7f2; 
+ul li a:hover {
+  color: #FF8225;
+  border-color: #FF8225;
 }

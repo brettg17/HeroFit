@@ -152,11 +152,11 @@ function Workouts() {
               <div key={index} className="workout-card">
                 <div className="workout-details">
                   <h3>{workout.workout_type}</h3>
-                  <p>{workout.duration} minutes</p>
+                  <p>{workout.sets_reps}</p>
+                  {descriptionsVisible[index] && <p>{workout.description}</p>}
                   <button onClick={() => toggleDescription(index)}>
                     {descriptionsVisible[index] ? 'Hide Description' : 'Show Description'}
                   </button>
-                  {descriptionsVisible[index] && <p>{workout.description}</p>}
                 </div>
               </div>
             ))}

@@ -22,7 +22,7 @@ function ChooseChar() {
   const handleSelect = (charClass) => {
     setSelectedClass(charClass);
   };
-
+  
   const handleChoose = () => {
     navigate('/main');
   };

@@ -6,6 +6,7 @@ import ChooseChar from './components/chooseChar';
 import Main from './components/Main';
 import Workouts from './components/Workouts';
 import DailyTasks from "./components/DailyTasks";
+import Home from './components/Home'
 import { AuthProvider } from './components/AuthContext';
 
 
@@ -18,6 +19,7 @@ function App() {
       <div>
         <Navbar />
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/classes" element={<ChooseChar />} />
