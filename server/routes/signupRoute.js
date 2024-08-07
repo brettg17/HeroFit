@@ -14,12 +14,11 @@ router.post("/signup", async (req, res) => {
     }
 
     const result = await pool.query(
-      "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING user_id",
+      "INSERT INTO users (username, email, password, signup_date) VALUES ($1, $2, $3, CURRENT_TIMESTAMP) RETURNING user_id",
       [username, email, password]
     );
 
     const userId = result.rows[0].user_id;
-
 
     await pool.query(
       "INSERT INTO UserProfiles (user_id, class_id) VALUES ($1, $2)",
@@ -28,7 +27,6 @@ router.post("/signup", async (req, res) => {
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
-
     if (error.code === '23505') {
       return res.status(400).json({ error: "Email already in use" });
     }
