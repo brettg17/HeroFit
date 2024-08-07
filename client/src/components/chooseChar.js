@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/chooseChar.css';
-import warriorShot from '../assets/warriorShot.png';
-import wizardShot from '../assets/wizardShot.png';
-import archerShot from '../assets/archerShot.png';
-import rogueShot from '../assets/rogueShot.png';
+import warriorShot from '../assets/vecteezy_silhouette-of-a-woman-with-a-sword_23059981.jpg';
+import wizardShot from '../assets/vecteezy_ai-generated-young-adult-beauty-portrait-of-a-sensuous_39589683.jpg';
+import archerShot from '../assets/vecteezy_silhouette-of-an-archer-aiming-at-sunset-in-a-field-of-grass_47023183.jpeg';
+import rogueShot from '../assets/anime_art_of_male_Rogue_with_c.jpeg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDumbbell, faTrophy, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 function ChooseChar() {
   const [selectedClass, setSelectedClass] = useState(null);
@@ -14,42 +17,78 @@ function ChooseChar() {
 
   const characterClasses = [
     { name: 'Warrior', description: 'Workouts are tailored towards those who want to build muscle.', imgSrc: warriorShot },
-    { name: 'Wizard', description: 'Workouts are for those who simply want to get into better shape.', imgSrc: wizardShot },
     { name: 'Archer', description: 'Workouts are tailored to those who want to slim down.', imgSrc: archerShot },
-    { name: 'Rogue', description: 'Workouts are tailored to those who went to work on flexibility.', imgSrc: rogueShot },
+    { name: 'Rogue', description: 'Workouts are tailored to those who want to work on flexibility.', imgSrc: rogueShot },
+    { name: 'Wizard', description: 'Workouts are for those who simply want to get into better shape.', imgSrc: wizardShot },
   ];
 
   const handleSelect = (charClass) => {
     setSelectedClass(charClass);
   };
-  
+
   const handleChoose = () => {
     navigate('/main');
   };
 
   return (
     <div className="choosechar-container">
-      <h2>Welcome, {user?.username || 'Guest'}! </h2>
-      <h2>Click on a character card to learn more about them. </h2>
-      <div className="choosechar-grid">
-        {characterClasses.map((charClass) => (
-          <div key={charClass.name} className="char-card" onClick={() => handleSelect(charClass)}>
-            <img src={charClass.imgSrc} alt={charClass.name} />
-            <p>{charClass.name}</p>
-          </div>
-        ))}
+      <h2>Welcome to HeroFit, {user?.username || 'Guest'}!</h2>
+
+      <div id="characterCarousel" className="carousel slide" data-bs-interval="false">
+        <ol className="carousel-indicators">
+          {characterClasses.map((_, index) => (
+            <li
+              key={index}
+              data-bs-target="#characterCarousel"
+              data-bs-slide-to={index}
+              className={index === 0 ? 'active' : ''}
+            ></li>
+          ))}
+        </ol>
+        <div className="carousel-inner">
+          {characterClasses.map((charClass, index) => (
+            <div
+              key={charClass.name}
+              className={`carousel-item ${index === 0 ? 'active' : ''}`}
+              onClick={() => handleSelect(charClass)}
+            >
+              <img className="d-block w-100" src={charClass.imgSrc} alt={charClass.name} />
+              <div className="carousel-caption d-none d-md-block">
+                <h3>{charClass.name}</h3>
+                <h5>{charClass.description}</h5>
+              </div>
+            </div>
+          ))}
+        </div>
+        <a className="carousel-control-prev" href="#characterCarousel" role="button" data-bs-slide="prev">
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </a>
+        <a className="carousel-control-next" href="#characterCarousel" role="button" data-bs-slide="next">
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Next</span>
+        </a>
       </div>
 
-      {selectedClass && (
-        <div className="char-description">
-          <h3>{selectedClass.name}</h3>
-          <p>{selectedClass.description}</p>
-          <button onClick={handleChoose}>
-            Begin Fitness Journey!
-          </button>
+      <button onClick={handleChoose} className="fixed-button">
+        Begin Fitness Journey!
+      </button>
+      <div className="icons-container">
+        <div className="icon-item">
+          <FontAwesomeIcon icon={faDumbbell} className="home-icon" />
+          <span className="icon-text">Workouts</span>
         </div>
-      )}
+        <div className="icon-item">
+          <FontAwesomeIcon icon={faTrophy} className="home-icon" />
+          <span className="icon-text">Challenges</span>
+        </div>
+        <div className="icon-item">
+          <FontAwesomeIcon icon={faChartLine} className="home-icon" />
+          <span className="icon-text">Progression</span>
+        </div>
+      </div>
     </div>
+    
   );
 }
 
