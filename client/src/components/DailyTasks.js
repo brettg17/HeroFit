@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/DailyTasks.css';
 
-
 const getClassName = (classId) => {
   switch (classId) {
     case 1:
@@ -21,19 +20,35 @@ const DailyTasks = () => {
   const [challenges, setChallenges] = useState([]);
   const [progress, setProgress] = useState({});
   const [completed, setCompleted] = useState({});
-  const [collapsed, setCollapsed] = useState({}); 
-  const [inProgress, setInProgress] = useState({}); 
-
-  const class_id = 1; 
+  const [collapsed, setCollapsed] = useState({});
+  const [inProgress, setInProgress] = useState({});
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    fetch(`http://localhost:5001/api/daily-challenges`)
+    fetch('http://localhost:5001/api/daily-challenges')
       .then(response => response.json())
       .then(data => {
         setChallenges(data);
       })
       .catch(error => console.error('Error fetching challenges:', error));
-  }, [class_id]);
+      
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  function calculateTimeLeft() {
+    const now = new Date();
+    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const difference = midnight - now;
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+    
+    return { hours, minutes, seconds };
+  }
 
   const startChallenge = (id) => {
     setInProgress((prev) => ({ ...prev, [id]: true }));
@@ -55,7 +70,7 @@ const DailyTasks = () => {
   const finishChallenge = (id) => {
     setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
     setInProgress((prev) => ({ ...prev, [id]: false }));
-    setProgress((prev) => ({ ...prev, [id]: 100 })); //progress bar @ 100%
+    setProgress((prev) => ({ ...prev, [id]: 100 })); // progress bar @ 100%
   };
 
   const toggleCollapse = (id) => {
@@ -114,6 +129,14 @@ const DailyTasks = () => {
           )}
         </div>
       ))}
+      <div className="countdown">
+        <h3>Daily challenges reset in:</h3>
+        <div className="countdown-timer">
+          <span>{String(timeLeft.hours).padStart(2, '0')}:</span>
+          <span>{String(timeLeft.minutes).padStart(2, '0')}:</span>
+          <span>{String(timeLeft.seconds).padStart(2, '0')}</span>
+        </div>
+      </div>
     </div>
   );
 };
