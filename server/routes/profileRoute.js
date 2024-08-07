@@ -40,7 +40,7 @@ router.get('/my-profile/:username', async (req, res) => {
     });
   } catch (err) {
     console.error('Server error:', err.message); // Debug logging
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

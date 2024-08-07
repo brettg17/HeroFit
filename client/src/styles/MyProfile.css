@@ -39,6 +39,24 @@
   background-color: #e0e0e0;
   border-radius: 5px;
   margin-top: 5px;
+  position: relative;
+}
+
+.progress-bar-background:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  font-size: 12px;
+  z-index: 10;
+  /* Ensure default tooltip is hidden */
+  pointer-events: auto;
 }
 
 .progress-bar-fill {
@@ -49,6 +67,17 @@
 
 .profile-container:hover {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  transform: translateY(-3px);
   transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.progression-chart, .pie-chart-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.chart-image, .pie-chart {
+  width: 300px;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
 }
