@@ -96,11 +96,19 @@
 .challenge-class {
   font-style: italic;
   color: #555;
+  display: flex;
+  align-items: center;
 }
 
 .reward-text {
   margin-left: 10px;
   display: flex;
+  align-items: center;
+}
+
+.reward-info {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -170,4 +178,12 @@
 .countdown-timer span {
   margin: 0 5px;
   display: inline-block;
+}
+
+
+.class-icon {
+  width: 70px; 
+  height: 70px; 
+  border-radius: 50%; 
+  margin-left: 20px; 
 }
