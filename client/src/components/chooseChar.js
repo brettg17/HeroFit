@@ -10,7 +10,11 @@ import rogueShot from '../assets/anime_art_of_male_Rogue_with_c.jpeg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell, faTrophy, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
+
 function ChooseChar() {
+  //State to managge teh selected character class, 
+  //Navigate for navigating to other pages
+  //Auth for help displaying welcome message with username
   const [selectedClass, setSelectedClass] = useState(null);
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -30,6 +34,7 @@ function ChooseChar() {
     navigate('/main');
   };
 
+  //boot strap carousel and icons.
   return (
     <div className="choosechar-container">
       <h2>Welcome to HeroFit, {user?.username || 'Guest'}!</h2>

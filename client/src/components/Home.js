@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell, faTrophy, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Home.css';
 
+//basic homepage setup. when get started is clicked, links to /login
 const Home = () => {
   const navigate = useNavigate();
 

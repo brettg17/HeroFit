@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
-import '../styles/Workouts.css';
 import { useAuth } from './AuthContext';
+import { updateXP } from './xpSystem';
+import '../styles/Workouts.css';
 
 function Workouts() {
   const [durationVisible, setDurationVisible] = useState(true);
   const [intensityVisible, setIntensityVisible] = useState(true);
+
+  //Hook to get current lcoation object, contains state passed from pervious page
   const location = useLocation();
   const { state } = location;
+
+  //retrieve workotus passed in the state
   const workouts = state ? state.workouts : [];
+  
+  //hook to get currently authenticated user
   const { user } = useAuth();
 
   const [selectedDuration, setSelectedDuration] = useState(null);
@@ -18,19 +24,23 @@ function Workouts() {
     Array(workouts.length).fill(false)
   );
 
+  //toffle visibilkity of the duration filter
   const toggleDuration = () => {
     setDurationVisible(!durationVisible);
   };
 
+  //toggle visibility of the intensity filter
   const toggleIntensity = () => {
     setIntensityVisible(!intensityVisible);
   };
 
+  //handle changes to the duration filter
   const handleDurationChange = (event) => {
     const value = event.target.value;
     setSelectedDuration(prevState => (prevState === value ? null : value));
   };
 
+  // handle changes to the intensity filter
   const handleIntensityChange = (event) => {
     const value = event.target.value;
     setSelectedIntensity(prevState =>
@@ -40,6 +50,7 @@ function Workouts() {
     );
   };
 
+  //toggle visibility for description of a specific workout
   const toggleDescription = (index) => {
     setDescriptionsVisible((prevDescriptionsVisible) => {
       const newDescriptionsVisible = [...prevDescriptionsVisible];
@@ -48,6 +59,7 @@ function Workouts() {
     });
   };
 
+  //filter workotus based on selected duration and intensity
   const filterWorkouts = () => {
     const filteredByIntensity = selectedIntensity.length === 0
       ? workouts
@@ -59,54 +71,21 @@ function Workouts() {
     return filteredByIntensity.slice(0, numWorkouts);
   };
 
+  //workout complete and update xp
   const handleWorkoutComplete = async () => {
     const filteredWorkouts = filterWorkouts();
-    const xpGained = filteredWorkouts.reduce((total, workout) => {
-      switch (workout.difficulty) {
-        case 'Easy':
-          return total + 10;
-        case 'Medium':
-          return total + 15;
-        case 'Hard':
-          return total + 20;
-        default:
-          return total;
-      }
-    }, 0);
 
     try {
-      const response = await axios.post('http://localhost:5001/api/xp/update-xp', {
-        userId: user.user_id,
-        classId: state.classId,
-        xpGained,
-      });
-
-      const { 
-        message, 
-        warriorXP, warriorLevel, 
-        rogueXP, rogueLevel, 
-        archerXP, archerLevel, 
-        wizardXP, wizardLevel, 
-        characterLevel 
-      } = response.data;
-
-      const classLevels = {
-        1: { xp: warriorXP, level: warriorLevel },
-        2: { xp: rogueXP, level: rogueLevel },
-        3: { xp: archerXP, level: archerLevel },
-        4: { xp: wizardXP, level: wizardLevel }
-      };
-
-      const currentClassLevel = classLevels[state.classId];
+      const result = await updateXP(user.user_id, state.classId, filteredWorkouts);
 
       alert(`
-        ${message}
-        Class XP: ${currentClassLevel.xp}, Class Level: ${currentClassLevel.level}
-        Character Level: ${characterLevel}
+        ${result.message}
+        Class XP: ${result.classXP}, Class Level: ${result.classLevel}
+        Character Level: ${result.characterLevel}
       `);
     } catch (error) {
       console.error('Error updating XP:', error);
-      alert('Error updating XP: ' + (error.response?.data?.error || error.message));
+      alert('Error updating XP: ' + error.message);
     }
   };
 
@@ -118,11 +97,10 @@ function Workouts() {
       <div className="workout-page">
         <div className="filter-container">
           <div className="filter">
-            <button onClick={toggleDuration}>
+            <button onClick={toggleDuration} className="card-button">
               {durationVisible ? 'Hide Duration' : 'Show Duration'}
             </button>
             <div className={`filter-content ${durationVisible ? '' : 'collapsed'}`}>
-              <h3>Duration</h3>
               <ul>
                 <li><label><input type="checkbox" value="30" onChange={handleDurationChange} checked={selectedDuration === '30'} /> 30 minutes</label></li>
                 <li><label><input type="checkbox" value="45" onChange={handleDurationChange} checked={selectedDuration === '45'} /> 45 minutes</label></li>
@@ -131,11 +109,10 @@ function Workouts() {
             </div>
           </div>
           <div className="filter">
-            <button onClick={toggleIntensity}>
+            <button onClick={toggleIntensity} className="card-button">
               {intensityVisible ? 'Hide Intensity' : 'Show Intensity'}
             </button>
             <div className={`filter-content ${intensityVisible ? '' : 'collapsed'}`}>
-              <h3>Intensity</h3>
               <ul>
                 <li><label><input type="checkbox" value="Easy" onChange={handleIntensityChange} /> Easy</label></li>
                 <li><label><input type="checkbox" value="Medium" onChange={handleIntensityChange} /> Medium</label></li>
@@ -143,7 +120,7 @@ function Workouts() {
               </ul>
             </div>
           </div>
-          <button onClick={handleWorkoutComplete}>Workout Complete</button>
+          <button onClick={handleWorkoutComplete} className="card-button">Workout Complete</button>
         </div>
         <div className="workouts-list">
           <h2>{filteredWorkouts.length} Workouts Found</h2>
@@ -154,7 +131,7 @@ function Workouts() {
                   <h3>{workout.workout_type}</h3>
                   <p>{workout.sets_reps}</p>
                   {descriptionsVisible[index] && <p>{workout.description}</p>}
-                  <button onClick={() => toggleDescription(index)}>
+                  <button onClick={() => toggleDescription(index)} className="card-button">
                     {descriptionsVisible[index] ? 'Hide Description' : 'Show Description'}
                   </button>
                 </div>
