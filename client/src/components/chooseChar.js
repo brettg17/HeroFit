@@ -6,7 +6,7 @@ import '../styles/chooseChar.css';
 import warriorShot from '../assets/vecteezy_silhouette-of-a-woman-with-a-sword_23059981.jpg';
 import wizardShot from '../assets/vecteezy_ai-generated-young-adult-beauty-portrait-of-a-sensuous_39589683.jpg';
 import archerShot from '../assets/vecteezy_silhouette-of-an-archer-aiming-at-sunset-in-a-field-of-grass_47023183.jpeg';
-import rogueShot from '../assets/anime_art_of_male_Rogue_with_c.jpeg';
+import rogueShot from '../assets/vecteezy_hooded-thief-lurking-in-the-dark-night_32941682.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell, faTrophy, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
