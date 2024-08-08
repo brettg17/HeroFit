@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 import '../styles/Main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import globalBusinessImage from '../assets/vecteezy_global-business-background-illustration_24398828.jpg';
@@ -10,7 +11,7 @@ function Main() {
   const [selectedDropdown, setSelectedDropdown] = useState(false);
   const [workouts, setWorkouts] = useState([]);
   const navigate = useNavigate();
-
+  const { user } = useAuth();
   //toggle dropdown
   const handleDropdown = () => {
     setSelectedDropdown(!selectedDropdown);
@@ -52,7 +53,7 @@ function Main() {
   //Bootstrap card system for workouts, dailychallenges, and progress
   return (
     <div className="main-container">
-      <h1>Home</h1>
+      <h2>Welcome to HeroFit, {user?.username || 'Guest'}!</h2>
       <div className="sections-grid">
         <div className="card" style={{ width: '18rem' }}>
           <img className="card-img-top" src={dumbells} alt="Card image cap" />

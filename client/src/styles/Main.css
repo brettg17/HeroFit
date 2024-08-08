@@ -25,12 +25,9 @@
   color: #173B45;
   cursor: pointer;
   transition: background-color 0.3s;
-  background-color: #FF8225;
+  background-color: #F73B45;
 }
 
-.card-button:hover {
-  background-color: #FF8225;
-}
 
 h4, h1 {
   font-family: 'Roboto', sans-serif;

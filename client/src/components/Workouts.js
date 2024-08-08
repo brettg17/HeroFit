@@ -14,7 +14,7 @@ function Workouts() {
 
   //retrieve workotus passed in the state
   const workouts = state ? state.workouts : [];
-  
+
   //hook to get currently authenticated user
   const { user } = useAuth();
 
@@ -102,9 +102,9 @@ function Workouts() {
             </button>
             <div className={`filter-content ${durationVisible ? '' : 'collapsed'}`}>
               <ul>
-                <li><label><input type="checkbox" value="30" onChange={handleDurationChange} checked={selectedDuration === '30'} /> 30 minutes</label></li>
-                <li><label><input type="checkbox" value="45" onChange={handleDurationChange} checked={selectedDuration === '45'} /> 45 minutes</label></li>
-                <li><label><input type="checkbox" value="60" onChange={handleDurationChange} checked={selectedDuration === '60'} /> 60 minutes</label></li>
+                <li><label><input type="checkbox" value="30" onChange={handleDurationChange} checked={selectedDuration === '30'} /> 30m </label></li>
+                <li><label><input type="checkbox" value="45" onChange={handleDurationChange} checked={selectedDuration === '45'} /> 45m </label></li>
+                <li><label><input type="checkbox" value="60" onChange={handleDurationChange} checked={selectedDuration === '60'} /> 60m </label></li>
               </ul>
             </div>
           </div>
