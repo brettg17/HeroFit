@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 import '../styles/Main.css';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import globalBusinessImage from '../assets/vecteezy_global-business-background-illustration_24398828.jpg';
+import dumbells from '../assets/vecteezy_man-holding-a-dumbbell-in-a-gym-with-row-of-dumbbells-in-the_2031342.jpg';
+import jogging from '../assets/vecteezy_athlete-running-sport-feet-on-trail-healthy-lifestyle-fitness_7707946.jpg'
 function Main() {
+  // State manages dropdown
   const [selectedDropdown, setSelectedDropdown] = useState(false);
   const [workouts, setWorkouts] = useState([]);
   const navigate = useNavigate();
-
+  const { user } = useAuth();
+  //toggle dropdown
   const handleDropdown = () => {
     setSelectedDropdown(!selectedDropdown);
   };
 
+  //fetch workouts based on class
   const handleSelectClass = async (className) => {
     const classIdMap = {
       Warrior: 1,
@@ -43,26 +50,24 @@ function Main() {
     navigate('/progress');
   };
 
+  //Bootstrap card system for workouts, dailychallenges, and progress
   return (
     <div className="main-container">
-      <h1>Home</h1>
+      <h2>Welcome to HeroFit, {user?.username || 'Guest'}!</h2>
       <div className="sections-grid">
-        <div className="section-card">
-          <div className="section-content">
-            <h2>Workout Plans</h2>
-            <ul>
-              <li>Daily Workouts</li>
-              <li>Fast Workouts</li>
-              <li>HIIT Workouts</li>
-            </ul>
+        <div className="card" style={{ width: '18rem' }}>
+          <img className="card-img-top" src={dumbells} alt="Card image cap" />
+          <div className="card-body">
+            <h4 className="card-title">Workout Plans</h4>
+            <p className="card-text">Currated workouts based on Character Class</p>
             <div className="dropdown">
-              <button onClick={handleDropdown}>
+              <button onClick={handleDropdown}  className="card-button">
                 Workout Plans
               </button>
               {selectedDropdown && (
-                <div className="dropdown-workouts">
-                  {['Warrior', 'Mage', 'Archer', 'Rogue'].map((charClass) => (
-                    <button key={charClass} onClick={() => handleSelectClass(charClass)}>
+                <div className="dropdown-menu show">
+                  {['Warrior', 'Wizard', 'Archer', 'Rogue'].map((charClass) => (
+                    <button key={charClass} className="dropdown-item" onClick={() => handleSelectClass(charClass)}>
                       {charClass}
                     </button>
                   ))}
@@ -71,21 +76,22 @@ function Main() {
             </div>
           </div>
         </div>
-        <div className="section-card">
-          <div className="section-content">
-            <h2>Daily Challenges</h2>
-            <button onClick={handleDailyChallengesClick} className="card-button">Daily Challenges</button>
+
+        <div className="card" style={{ width: '18rem' }}>
+          <img className="card-img-top" src={jogging} alt="Card image cap" />
+          <div className="card-body">
+            <h4 className="card-title">Daily Challenges</h4>
+            <p className="card-text">Complete Daily Challenges for extra experience points.</p>
+            <button onClick={handleDailyChallengesClick}  className="card-button">Daily Challenges</button>
           </div>
         </div>
-        <div className="section-card">
-          <div className="section-content">
-            <h2>Progress</h2>
-            <ul>
-              <li>Level</li>
-              <li>Stats</li>
-              <li>Achievements</li>
-            </ul>
-            <button onClick={handleProgressClick} className="card-button">Progress</button>
+
+        <div className="card" style={{ width: '18rem' }}>
+          <img className="card-img-top" src={globalBusinessImage} alt="Card image cap" />
+          <div className="card-body">
+            <h4 className="card-title">Progress</h4>
+            <p className="card-text">Track your Character level, stats, and achievements.</p>
+            <button onClick={handleProgressClick}  className="card-button">Progress</button>
           </div>
         </div>
       </div>
