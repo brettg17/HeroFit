@@ -8,14 +8,11 @@ function Workouts() {
   const [durationVisible, setDurationVisible] = useState(true);
   const [intensityVisible, setIntensityVisible] = useState(true);
 
-  //Hook to get current lcoation object, contains state passed from pervious page
   const location = useLocation();
   const { state } = location;
-
-  //retrieve workotus passed in the state
   const workouts = state ? state.workouts : [];
-
-  //hook to get currently authenticated user
+  const className = state ? state.className : 'Class'; // Extract className
+  console.log('Class Name:', className);
   const { user } = useAuth();
 
   const [selectedDuration, setSelectedDuration] = useState(null);
@@ -24,23 +21,19 @@ function Workouts() {
     Array(workouts.length).fill(false)
   );
 
-  //toffle visibilkity of the duration filter
   const toggleDuration = () => {
     setDurationVisible(!durationVisible);
   };
 
-  //toggle visibility of the intensity filter
   const toggleIntensity = () => {
     setIntensityVisible(!intensityVisible);
   };
 
-  //handle changes to the duration filter
   const handleDurationChange = (event) => {
     const value = event.target.value;
     setSelectedDuration(prevState => (prevState === value ? null : value));
   };
 
-  // handle changes to the intensity filter
   const handleIntensityChange = (event) => {
     const value = event.target.value;
     setSelectedIntensity(prevState =>
@@ -50,7 +43,6 @@ function Workouts() {
     );
   };
 
-  //toggle visibility for description of a specific workout
   const toggleDescription = (index) => {
     setDescriptionsVisible((prevDescriptionsVisible) => {
       const newDescriptionsVisible = [...prevDescriptionsVisible];
@@ -59,7 +51,6 @@ function Workouts() {
     });
   };
 
-  //filter workotus based on selected duration and intensity
   const filterWorkouts = () => {
     const filteredByIntensity = selectedIntensity.length === 0
       ? workouts
@@ -71,7 +62,6 @@ function Workouts() {
     return filteredByIntensity.slice(0, numWorkouts);
   };
 
-  //workout complete and update xp
   const handleWorkoutComplete = async () => {
     const filteredWorkouts = filterWorkouts();
 
@@ -93,25 +83,27 @@ function Workouts() {
 
   return (
     <div className="workouts-container">
-      <h1>Workout Plans</h1>
+      <h1>{className} Workout Plans</h1>
       <div className="workout-page">
         <div className="filter-container">
           <div className="filter">
-            <button onClick={toggleDuration} className="card-button">
-              {durationVisible ? 'Hide Duration' : 'Show Duration'}
-            </button>
+            <div className="filter-header" onClick={toggleDuration}>
+              <span>Duration ⏱</span>
+              <span className={`filter-icon ${durationVisible ? 'rotate' : ''}`}>▼</span>
+            </div>
             <div className={`filter-content ${durationVisible ? '' : 'collapsed'}`}>
               <ul>
-                <li><label><input type="checkbox" value="30" onChange={handleDurationChange} checked={selectedDuration === '30'} /> 30m </label></li>
-                <li><label><input type="checkbox" value="45" onChange={handleDurationChange} checked={selectedDuration === '45'} /> 45m </label></li>
-                <li><label><input type="checkbox" value="60" onChange={handleDurationChange} checked={selectedDuration === '60'} /> 60m </label></li>
+                <li><label><input type="checkbox" value="30" onChange={handleDurationChange} checked={selectedDuration === '30'} /> 30 mins </label></li>
+                <li><label><input type="checkbox" value="45" onChange={handleDurationChange} checked={selectedDuration === '45'} /> 45 mins </label></li>
+                <li><label><input type="checkbox" value="60" onChange={handleDurationChange} checked={selectedDuration === '60'} /> 60 mins </label></li>
               </ul>
             </div>
           </div>
           <div className="filter">
-            <button onClick={toggleIntensity} className="card-button">
-              {intensityVisible ? 'Hide Intensity' : 'Show Intensity'}
-            </button>
+            <div className="filter-header" onClick={toggleIntensity}>
+              <span>Intensity 💀</span>
+              <span className={`filter-icon ${intensityVisible ? 'rotate' : ''}`}>▼</span>
+            </div>
             <div className={`filter-content ${intensityVisible ? '' : 'collapsed'}`}>
               <ul>
                 <li><label><input type="checkbox" value="Easy" onChange={handleIntensityChange} /> Easy</label></li>

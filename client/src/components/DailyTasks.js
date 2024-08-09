@@ -92,7 +92,7 @@ const DailyTasks = () => {
       const challenge = challenges.find(challenge => challenge.workout_id === id);
       if (challenge) {
         const xpGained = calculateXP(challenge.difficulty);
-        const result = await updateXP(user.user_id, challenge.class_id, [challenge]); 
+        const result = await updateXP(user.user_id, challenge.class_id, [challenge]); // Passing the challenge in an array
         setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
         setProgress((prev) => ({ ...prev, [id]: 100 }));
         alert(`

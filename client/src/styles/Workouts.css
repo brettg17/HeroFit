@@ -11,13 +11,18 @@ h1 {
 
 .workout-page {
   display: flex;
+  justify-content: space-between;
 }
 
 .filter-container {
   display: flex;
   flex-direction: column;
-  width: 15%;
+  width: 20%;
   margin-right: 20px;
+}
+
+.filter {
+  margin-bottom: 20px;
 }
 
 .filter h3 {
@@ -29,7 +34,9 @@ h1 {
   list-style: none;
   padding: 0;
   margin: 0;
-  padding-left: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .filter label {
@@ -46,7 +53,7 @@ h1 {
 }
 
 .filter-container button {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .workouts-list {
@@ -91,7 +98,6 @@ h1 {
   font-size: 1em;
 }
 
-
 .filter-content {
   display: flex;
   flex-direction: column;
@@ -100,20 +106,57 @@ h1 {
 .filter-content ul {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  padding-top: 0.5em;
 }
 
 .filter-content ul li {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  white-space: nowrap;
+  padding-top: 0.5em;
+}
+
+.filter-content input[type="checkbox"] {
+  transform: scale(1.5);
+  margin-right: 15px;
+}
+
+.filter-content label {
+  font-size: 1.2em;
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background-color: #FF8225;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.2em;
+}
+
+.filter-icon {
+  transition: transform 0.3s;
+}
+
+.filter-icon.rotate {
+  transform: rotate(180deg);
 }
 
 .card-button {
   border: none;
-  padding: 5px 15px;
-  font-size: 18px;
+  padding: 10px 20px;
+  font-size: 16px;
   color: #173B45;
   cursor: pointer;
   transition: background-color 0.3s;
   background-color: #FF8225;
+}
+
+.card-button:hover {
+  background-color: #e67e22;
 }
