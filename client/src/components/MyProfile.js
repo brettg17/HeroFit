@@ -1,46 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/MyProfile.css';
 import profileImage from '../assets/samurai_art_by_atey_ghailan_pa.jpeg'; 
 import placeholderChart from '../assets/placeholder_chart.png'; 
+import { useParams } from 'react-router-dom';
 
 const MyProfile = () => {
-  const { username } = useParams();
-  const [profile, setProfile] = useState(null); 
+  const { user_id } = useParams(); 
+  const [profile, setProfile] = useState(null);
+  const [error, setError] = useState(null); // Define error state
 
-  // useEffect(() => {
-  //   fetch(`/api/my-profile/${username}`)
-  //     // .then(response => response.json())
-  //     .then(data => setProfile(data))
-  //     .catch(error => console.error('Error fetching profile:', error));
-  // }, [username]);
-
-  //mock data
   useEffect(() => {
-    const mockData = {
-      username: 'testuser',
-      biography: 'This is a placeholder biography.',
-      warriorXP: 150,
-      warriorLevel: 3,
-      rogueXP: 70,
-      rogueLevel: 2,
-      archerXP: 120,
-      archerLevel: 3,
-      wizardXP: 90,
-      wizardLevel: 2,
-      challengesCompleted: 5,
-      accountCreated: '2024-01-01',
-    };
-    setProfile(mockData);
-  }, []);
-  
+    if (!user_id) {
+      console.error('No user ID found');
+      return;
+    }
+
+    axios.get(`http://localhost:5001/api/my-profile/${user_id}`)
+      .then(response => setProfile(response.data))
+      .catch(err => {
+        console.error('Error fetching profile:', err);
+        setError(err.message); // Update error state
+      });
+  }, [user_id]);
+
+  if (error) {
+    return <div>Error: {error}</div>; // Handle error
+  }
 
   if (!profile) {
-    return <div>Loading...</div>; // Shows a loading message until profile data can be found
+    return <div>Loading...</div>;
   }
 
   const progressBar = (xp) => {
-    const percentage = (xp % 100) + '%';
+    const percentage = Math.min((xp % 100), 100) + '%';
     return (
       <div className="progress-bar-background" title={`XP: ${xp}`}>
         <div className="progress-bar-fill" style={{ width: percentage }}></div>
@@ -79,7 +72,8 @@ const MyProfile = () => {
           </div>
         </div>
         <p><strong>Daily Challenges Completed:</strong> {profile.challengesCompleted}</p>
-        <p><strong>Account Created:</strong> {new Date(profile.accountCreated).toLocaleDateString()}</p>
+        <p><strong>Account Created:</strong> {new Date(profile.signup_date).toLocaleDateString()}</p>
+
         
         <div className="progression-chart">
           <h3>Progression Chart</h3>

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faHome, faDumbbell, faTrophy, faSignOutAlt, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import '../styles/DropdownMenu.css';
 
-/* install font awesome using:
+/* Install Font Awesome using:
 'npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons'
 */
 
@@ -30,7 +30,7 @@ function DropdownMenu() {
       </button>
       {isOpen && (
         <div className="dropdown-menu">
-          <a onClick={() => navigate(`/my-profile/${user.username}`)} className="profile-link">
+          <a onClick={() => navigate(`/my-profile/${user.user_id}`)} className="profile-link">
             <FontAwesomeIcon icon={faUser} className="fa-icon" /> View My Profile
             <span className="username">{user.username}</span>
           </a>

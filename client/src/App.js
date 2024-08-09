@@ -25,7 +25,7 @@ function App() {
           <Route path="/main" element={<Main />} />
           <Route path="/Workouts" element={<Workouts />} />
           <Route path="/daily-challenges" element={<DailyTasks />} />
-          <Route path="/my-profile/:username" element={<MyProfile />} />
+          <Route path="/my-profile/:user_id" element={<MyProfile />} />
         </Routes>
       </div>
     </Router>
