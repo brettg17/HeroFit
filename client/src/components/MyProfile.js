@@ -54,7 +54,7 @@ const MyProfile = () => {
         <img src={profileImage} alt="Profile" className="profile-image" />
       </div>
       <div className="profile-details">
-        <p><strong>Biography:</strong> {profile.biography}</p>
+        {/* <p><strong>Biography:</strong> {profile.biography}</p> */}
         <div className="level-section">
           <div className="class-level">
             <h3>Warrior</h3>
@@ -81,14 +81,14 @@ const MyProfile = () => {
         <p><strong>Account Created:</strong> {formatDate(profile.signup_date)}</p>
 
         
-        <div className="progression-chart">
+        {/* <div className="progression-chart">
           <h3>Progression Chart</h3>
           <img src={placeholderChart} alt="Progression Chart" className="chart-image" />
         </div>
         <div className="pie-chart-section">
           <h3>Level Distribution</h3>
           <img src={placeholderChart} alt="Level Distribution" className="pie-chart" />
-        </div>
+        </div> */}
       </div>
     </div>
   );
