@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from './AuthContext';  // Import AuthContext for user information
-import { updateXP } from './xpSystem';    // Import the updateXP function
+import { useAuth } from './AuthContext';  
+import { updateXP } from './xpSystem';    
 import '../styles/DailyTasks.css';
 import warrior from '../assets/fitApp-pictures/warrior.jpeg';
 import wizard from '../assets/fitApp-pictures/wizard.jpeg';
@@ -78,7 +78,7 @@ const DailyTasks = () => {
       setProgress((prev) => {
         if (prev[id] >= 100) {
           clearInterval(interval);
-          handleChallengeCompletion(id); // Call to handle XP update
+          handleChallengeCompletion(id); 
           setInProgress((prev) => ({ ...prev, [id]: false }));
           return prev;
         }
@@ -92,7 +92,7 @@ const DailyTasks = () => {
       const challenge = challenges.find(challenge => challenge.workout_id === id);
       if (challenge) {
         const xpGained = calculateXP(challenge.difficulty);
-        const result = await updateXP(user.user_id, challenge.class_id, [challenge]); // Passing the challenge in an array
+        const result = await updateXP(user.user_id, challenge.class_id, [challenge]); 
         setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
         setProgress((prev) => ({ ...prev, [id]: 100 }));
         alert(`

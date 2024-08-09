@@ -1,13 +1,20 @@
 .daily-tasks {
   text-align: center;
   font-family: 'Fira Sans', Arial, sans-serif;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                    url('../assets/vecteezy_athlete-running-sport-feet-on-trail-healthy-lifestyle-fitness_7707946.jpg'); 
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/bg-dailys.png');
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: 20px;
+  padding-top: 80px;
+  box-sizing: border-box; 
 }
 
+
 .daily-tasks h2 {
-  color: #ff8a00;
+  color: #ffffff;
   font-size: 28px;
   font-weight: bold;
   text-align: center;
