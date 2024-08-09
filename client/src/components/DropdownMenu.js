@@ -6,13 +6,6 @@ import { faUser, faHome, faDumbbell, faTrophy, faSignOutAlt, faBars, faTimes } f
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/DropdownMenu.css';
 
-<<<<<<< HEAD
-/* Install Font Awesome using:
-'npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons'
-*/
-
-=======
->>>>>>> 943f78793ef866ef8f0756a263b2cf71c9e84ce1
 function DropdownMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuth();
@@ -39,13 +32,8 @@ function DropdownMenu() {
         <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
       </button>
       {isOpen && (
-<<<<<<< HEAD
-        <div className="dropdown-menu">
-          <a onClick={() => navigate(`/my-profile/${user.user_id}`)} className="profile-link">
-=======
         <div className="dropdown-menu show" aria-labelledby="dropdownMenuButton">
-          <a onClick={() => navigate('/profile')} className="dropdown-item profile-link">
->>>>>>> 943f78793ef866ef8f0756a263b2cf71c9e84ce1
+          <a onClick={() => navigate(`/my-profile/${user.user_id}`)} className="profile-link">
             <FontAwesomeIcon icon={faUser} className="fa-icon" /> View My Profile
             <span className="username">{user.username}</span>
           </a>

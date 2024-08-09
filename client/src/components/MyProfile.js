@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/MyProfile.css';
 import profileImage from '../assets/samurai_art_by_atey_ghailan_pa.jpeg'; 
-import placeholderChart from '../assets/placeholder_chart.png'; 
+// import placeholderChart from '../assets/placeholder_chart.png'; 
 import { useParams } from 'react-router-dom';
 
 const MyProfile = () => {

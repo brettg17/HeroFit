@@ -6,11 +6,8 @@ import ChooseChar from './components/chooseChar';
 import Main from './components/Main';
 import Workouts from './components/Workouts';
 import DailyTasks from "./components/DailyTasks";
-<<<<<<< HEAD
-import MyProfile from './components/MyProfile';
-=======
 import Home from './components/Home'
->>>>>>> 943f78793ef866ef8f0756a263b2cf71c9e84ce1
+import MyProfile from './components/MyProfile'
 import { AuthProvider } from './components/AuthContext';
 
 
