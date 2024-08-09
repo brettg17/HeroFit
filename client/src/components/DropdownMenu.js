@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faHome, faDumbbell, faTrophy, faSignOutAlt, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHome, faDumbbell, faTrophy, faSignOutAlt, faBars, faTimes, faCogs } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/DropdownMenu.css';
 
 function DropdownMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showWorkoutPlans, setShowWorkoutPlans] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -18,6 +19,10 @@ function DropdownMenu() {
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const handleWorkoutPlansToggle = () => {
+    setShowWorkoutPlans(!showWorkoutPlans);
   };
 
   return (
@@ -40,9 +45,23 @@ function DropdownMenu() {
           <a onClick={() => navigate('/main')} className="dropdown-item">
             <FontAwesomeIcon icon={faHome} className="fa-icon" /> Main Menu
           </a>
-          <a onClick={() => navigate('/workout-plans')} className="dropdown-item">
-            <FontAwesomeIcon icon={faDumbbell} className="fa-icon" /> Workout Plans
+          <a onClick={() => navigate('/classes')} className="dropdown-item">
+            <FontAwesomeIcon icon={faCogs} className="fa-icon" /> Classes
           </a>
+          <div className="dropdown-item">
+            <button onClick={handleWorkoutPlansToggle} className="dropdown-submenu-toggle">
+              <FontAwesomeIcon icon={faDumbbell} className="fa-icon" /> Workout Plans
+            </button>
+            {showWorkoutPlans && (
+              <div className="dropdown-submenu">
+                {['Warrior', 'Wizard', 'Archer', 'Rogue'].map((charClass) => (
+                  <a key={charClass} onClick={() => navigate(`/workouts/${charClass.toLowerCase()}`)} className="dropdown-submenu-item">
+                    {charClass}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
           <a onClick={() => navigate('/daily-challenges')} className="dropdown-item">
             <FontAwesomeIcon icon={faTrophy} className="fa-icon" /> Daily Challenges
           </a>

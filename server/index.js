@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// API Routes (Router Imports)
+// API Routes
 const homeRoute = require('./routes/homeRoute');
 const loginRoute = require('./routes/loginRoute');
 const signupRoute = require('./routes/signupRoute');

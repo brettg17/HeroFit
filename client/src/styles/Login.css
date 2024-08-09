@@ -46,31 +46,11 @@ label {
   font-weight: bold; 
 }
 
-input {
-  width: calc(100% - 2.5em); 
-  padding: 0.5em 1em 0.5em 2.5em; 
-  border: none; 
-  border-bottom: 2px solid #333; 
-  background-color: #f8f9fa; 
-  color: #000;
-  font-size: 1em;
-  margin-bottom: 1em; 
-  outline: none; 
-  font-family: 'Fira Sans', Arial, sans-serif; 
-}
 
-input:focus {
-  border-bottom: 2px solid #1bc7f2; 
-  background-color: transparent; 
-}
-
-.input-icon {
-  position: absolute;
-  left: 0.5em;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.2em; 
-  color: #1bc7f2; 
+input::placeholder {
+  color: #888; 
+  opacity: 1; 
+  text-align: left; 
 }
 
 .login-button {

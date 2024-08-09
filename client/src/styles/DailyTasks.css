@@ -1,8 +1,21 @@
 .daily-tasks {
   text-align: center;
   font-family: 'Fira Sans', Arial, sans-serif;
-  background-image: url('../assets/vecteezy_athlete-running-sport-feet-on-trail-healthy-lifestyle-fitness_7707946.jpg'); 
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                    url('../assets/vecteezy_athlete-running-sport-feet-on-trail-healthy-lifestyle-fitness_7707946.jpg'); 
+  background-size: cover;
 }
+
+.daily-tasks h2 {
+  color: #ff8a00;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
 
 .challenge {
   margin: 20px auto;
@@ -173,7 +186,8 @@
 .countdown-timer {
   font-size: 30px;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .countdown-timer span {
@@ -183,8 +197,20 @@
 
 
 .class-icon {
-  width: 70px; 
-  height: 70px; 
-  border-radius: 50%; 
-  margin-left: 20px; 
+  width: 50px; 
+  height: 50px;
+  border-radius: 8px; 
+  object-fit: cover; 
+  margin-left: 10px; 
+}
+
+.challenge-description {
+  font-size: 14px; 
+  line-height: 1.4; 
+  margin-bottom: 10px; 
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+  max-width: 100%; 
+  text-align: left; 
+  white-space: normal; 
 }

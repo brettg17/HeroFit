@@ -77,8 +77,13 @@ const MyProfile = () => {
             {progressBar(profile.wizardXP)}
           </div>
         </div>
-        <p><strong>Daily Challenges Completed:</strong> {profile.challengesCompleted}</p>
-        <p><strong>Account Created:</strong> {formatDate(profile.signup_date)}</p>
+        <p className="profile-info">
+  <strong>Daily Challenges Completed:</strong> {profile.challengesCompleted}
+</p>
+<p className="profile-info">
+  <strong>Account Created:</strong> {formatDate(profile.signup_date)}
+</p>
+
 
         
         {/* <div className="progression-chart">

@@ -9,9 +9,9 @@ const getRandomSubset = (array, size) => {
 
 router.get('/', async (req, res) => {
   try {
-
-    // Query the database for all challenges
-    const allChallenges = await db.query('SELECT workout_id, workout_type, difficulty, duration, class_id FROM Workouts');
+    // Query  database for all challenges 
+    const allChallenges = await db.query('SELECT workout_id, workout_type, difficulty, duration, class_id, description FROM Workouts');
+    console.log('All Challenges:', allChallenges.rows);
 
     // Get a random 3 challenges
     const randomChallenges = getRandomSubset(allChallenges.rows, 3);

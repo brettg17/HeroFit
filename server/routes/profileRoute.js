@@ -7,7 +7,7 @@ router.get('/:user_id', async (req, res) => {
   console.log(`Fetching profile for user_id: ${user_id}`);
 
   try {
-    // Fetch user data
+    // fetch user data
     const userResult = await pool.query('SELECT * FROM Users WHERE user_id = $1', [user_id]);
     if (userResult.rows.length === 0) {
       console.error('User not found');
@@ -16,7 +16,7 @@ router.get('/:user_id', async (req, res) => {
 
     const user = userResult.rows[0];
 
-    // Fetch user profile data
+    // fetch user profile data
     const userProfileResult = await pool.query('SELECT * FROM UserProfiles WHERE user_id = $1', [user_id]);
     if (userProfileResult.rows.length === 0) {
       console.error('User profile not found');
@@ -26,7 +26,7 @@ router.get('/:user_id', async (req, res) => {
     const userProfile = userProfileResult.rows[0];
     console.log('User profile fetched successfully:', userProfile);
 
-    // Combine user and userProfile data
+    // combine user and userprofile data
     const profileData = {
       username: user.username,
       biography: userProfile.biography || 'This is a placeholder biography.',

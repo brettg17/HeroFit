@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';  // Import AuthContext for user information
+import { updateXP } from './xpSystem';    // Import the updateXP function
 import '../styles/DailyTasks.css';
 import warrior from '../assets/fitApp-pictures/warrior.jpeg';
 import wizard from '../assets/fitApp-pictures/wizard.jpeg';
@@ -40,6 +42,7 @@ const DailyTasks = () => {
   const [collapsed, setCollapsed] = useState({});
   const [inProgress, setInProgress] = useState({});
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const { user } = useAuth(); // Get current user from AuthContext
 
   useEffect(() => {
     fetch('http://localhost:5001/api/daily-challenges')
@@ -75,7 +78,7 @@ const DailyTasks = () => {
       setProgress((prev) => {
         if (prev[id] >= 100) {
           clearInterval(interval);
-          setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
+          handleChallengeCompletion(id); // Call to handle XP update
           setInProgress((prev) => ({ ...prev, [id]: false }));
           return prev;
         }
@@ -84,10 +87,29 @@ const DailyTasks = () => {
     }, 50);
   };
 
+  const handleChallengeCompletion = async (id) => {
+    try {
+      const challenge = challenges.find(challenge => challenge.workout_id === id);
+      if (challenge) {
+        const xpGained = calculateXP(challenge.difficulty);
+        const result = await updateXP(user.user_id, challenge.class_id, [challenge]); // Passing the challenge in an array
+        setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
+        setProgress((prev) => ({ ...prev, [id]: 100 }));
+        alert(`
+          Challenge Completed!
+          ${result.message}
+          Class XP: ${result.classXP}, Class Level: ${result.classLevel}
+          Character Level: ${result.characterLevel}
+        `);
+      }
+    } catch (error) {
+      console.error('Error updating XP:', error);
+      alert('Error updating XP: ' + error.message);
+    }
+  };
+
   const finishChallenge = (id) => {
-    setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
-    setInProgress((prev) => ({ ...prev, [id]: false }));
-    setProgress((prev) => ({ ...prev, [id]: 100 })); // progress bar @ 100%
+    handleChallengeCompletion(id); 
   };
 
   const toggleCollapse = (id) => {
@@ -111,6 +133,7 @@ const DailyTasks = () => {
                   <div>
                     <p>Difficulty: {challenge.difficulty}</p>
                     <p>Duration: {challenge.duration} mins</p>
+                    <p className="challenge-description">Description: {challenge.description || 'No description available'}</p>
                     <p className="challenge-class">
                       Class: {classInfo.name}
                       {classInfo.imgSrc && <img src={classInfo.imgSrc} alt={classInfo.name} className="class-icon" />}

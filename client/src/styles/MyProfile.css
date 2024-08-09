@@ -55,7 +55,6 @@
   white-space: nowrap;
   font-size: 12px;
   z-index: 10;
-  /* Ensure default tooltip is hidden */
   pointer-events: auto;
 }
 
@@ -80,4 +79,14 @@
   height: auto;
   border: 1px solid #ccc;
   border-radius: 10px;
+}
+
+.profile-info {
+  margin-bottom: 20px; 
+  margin-top: 40px;
+}
+
+
+.profile-info:last-of-type {
+  margin-bottom: 50px; 
 }
