@@ -41,6 +41,12 @@ const MyProfile = () => {
     );
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return isNaN(date) ? 'Invalid Date' : date.toLocaleDateString();
+  };
+
   return (
     <div className="profile-container">
       <div className="profile-header">
@@ -72,7 +78,7 @@ const MyProfile = () => {
           </div>
         </div>
         <p><strong>Daily Challenges Completed:</strong> {profile.challengesCompleted}</p>
-        <p><strong>Account Created:</strong> {new Date(profile.signup_date).toLocaleDateString()}</p>
+        <p><strong>Account Created:</strong> {formatDate(profile.signup_date)}</p>
 
         
         <div className="progression-chart">

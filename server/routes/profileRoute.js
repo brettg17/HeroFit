@@ -39,7 +39,7 @@ router.get('/:user_id', async (req, res) => {
       wizardXP: userProfile.wizard_experience,
       wizardLevel: userProfile.wizard_level,
       challengesCompleted: userProfile.challenges_completed || 0,
-      accountCreated: user.signup_date,
+      signup_date: user.signup_date,
     };
 
     // Send the combined profile data back to the client
