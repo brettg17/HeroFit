@@ -1,6 +1,7 @@
 .workouts-container {
   padding: 20px;
   text-align: center;
+  background-color: #F8EDED;
 }
 
 h1 {
@@ -15,12 +16,8 @@ h1 {
 .filter-container {
   display: flex;
   flex-direction: column;
-  width: 25%;
+  width: 15%;
   margin-right: 20px;
-}
-
-.filter {
-  margin-bottom: 20px;
 }
 
 .filter h3 {
@@ -32,11 +29,7 @@ h1 {
   list-style: none;
   padding: 0;
   margin: 0;
-  padding-left: 80px;
-}
-
-.filter li {
-  margin-bottom: 5px;
+  padding-left: 30%;
 }
 
 .filter label {
@@ -113,4 +106,14 @@ h1 {
   display: flex;
   align-items: center;
   margin-bottom: 5px;
+}
+
+.card-button {
+  border: none;
+  padding: 5px 15px;
+  font-size: 18px;
+  color: #173B45;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #FF8225;
 }

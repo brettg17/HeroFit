@@ -11,6 +11,10 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
+  background-image: url('../assets/vecteezy_athlete-running-sport-feet-on-trail-healthy-lifestyle-fitness_7707946.jpg'); 
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center-top;
 }
 
 .signup-box {

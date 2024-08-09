@@ -35,7 +35,7 @@ CREATE TABLE UserProfiles (
   warrior_level INTEGER DEFAULT 1,
   rogue_level INTEGER DEFAULT 1,
   archer_level INTEGER DEFAULT 1,
-  wizard_level INTEGER DEFAULT 1
+  wizard_level INTEGER DEFAULT 1,
 );
 
 CREATE TABLE Experience (
@@ -53,6 +53,7 @@ CREATE TABLE Workouts (
   workout_type VARCHAR(255),
   difficulty VARCHAR(255),
   duration INTEGER,
+  sets_reps TEXT,
   description TEXT,
   date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

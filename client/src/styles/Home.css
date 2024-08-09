@@ -1,0 +1,52 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url('../assets/vecteezy_athlete-running-sport-feet-on-trail-healthy-lifestyle-fitness_7707946.jpg'); 
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center-top;
+  text-align: center;
+  color: white; 
+}
+
+h1 {
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 20px;
+  font-size: 48px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.start-button {
+  background-color: #FF8225;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: #F8EDED;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.start-button:hover {
+  background-color: #ff4c39;
+}
+
+.icons-container {
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+  margin-top: 50px;
+  color: #173B45;
+}
+
+.home-icon {
+  font-size: 48px;
+  transition: transform 0.3s;
+}
+
+.home-icon:hover {
+  transform: scale(1.1);
+}
