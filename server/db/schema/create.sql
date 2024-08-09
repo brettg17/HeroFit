@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS UserProfiles CASCADE;
 DROP TABLE IF EXISTS Workouts CASCADE;
 
 -- ALTER TABLE users ADD COLUMN signup_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+-- ALTER TABLE Users ADD COLUMN dailychallenges_completed INT DEFAULT 0;
 
 
 -- Create CharacterClasses table
