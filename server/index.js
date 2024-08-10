@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
+const path = require('path');
 
 // Import routes
 const homeRoute = require('./routes/homeRoute');
@@ -16,6 +17,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
+
 // Routes
 app.use('/api/home', homeRoute);
 app.use('/api/auth', loginRoute);
@@ -23,6 +26,7 @@ app.use('/api/auth', signupRoute);
 app.use('/api/workouts', workoutRoute);
 app.use('/api/xp', xpRoute);
 app.use('/api/daily-challenges', dailyChallengesRoute);
+
 
 const PORT = process.env.PORT || 5001;
 

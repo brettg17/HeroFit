@@ -25,7 +25,7 @@ export const updateXP = async (userId, classId, workouts) => {
       xpGained,
     });
 
-    //object destructuring response data
+    //object destructuring the response data
     const { 
       message, 
       warriorXP, warriorLevel, 

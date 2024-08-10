@@ -24,6 +24,8 @@ function Workouts() {
     Array(workouts.length).fill(false)
   );
 
+  const serverUrl = "http://localhost:5001";
+
   //toffle visibilkity of the duration filter
   const toggleDuration = () => {
     setDurationVisible(!durationVisible);
@@ -128,6 +130,9 @@ function Workouts() {
             {filteredWorkouts.map((workout, index) => (
               <div key={index} className="workout-card">
                 <div className="workout-details">
+                  {workout.image_url && (
+                    <img src={`${serverUrl}/${workout.image_url}`} alt={`${workout.workout_type} image`} className="workout-image" />
+                )}
                   <h3>{workout.workout_type}</h3>
                   <p>{workout.sets_reps}</p>
                   {descriptionsVisible[index] && <p>{workout.description}</p>}
@@ -140,6 +145,7 @@ function Workouts() {
           </div>
         </div>
       </div>
+      
     </div>
   );
 }
