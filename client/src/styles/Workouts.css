@@ -51,7 +51,7 @@ h1 {
 
 .workouts-list {
   text-align: left;
-  width: 75%;
+  width: 40%;
 }
 
 .workouts-list h2 {
@@ -59,10 +59,6 @@ h1 {
   margin-bottom: 10px;
 }
 
-.workout-cards {
-  display: flex;
-  flex-direction: column;
-}
 
 .workout-card {
   border: 1px solid #ccc;
@@ -116,4 +112,10 @@ h1 {
   cursor: pointer;
   transition: background-color 0.3s;
   background-color: #FF8225;
+}
+
+.workout-image {
+  max-width: 15%; 
+  height: auto;   
+  border-radius: 10px;
 }
