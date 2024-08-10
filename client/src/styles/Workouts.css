@@ -115,6 +115,7 @@ h1 {
 }
 
 .workout-image {
-  max-width: 100%; /* Ensure images are responsive */
-  height: auto;   /* Maintain aspect ratio */
+  max-width: 15%; 
+  height: auto;   
+  border-radius: 10px;
 }
