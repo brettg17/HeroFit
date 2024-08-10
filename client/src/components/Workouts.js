@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { updateXP } from './xpSystem';
 import '../styles/Workouts.css';
@@ -8,14 +8,17 @@ function Workouts() {
   const [durationVisible, setDurationVisible] = useState(true);
   const [intensityVisible, setIntensityVisible] = useState(true);
 
-  //Hook to get current lcoation object, contains state passed from pervious page
+  // Get the current location object, contains state passed from previous page
   const location = useLocation();
   const { state } = location;
 
-  //retrieve workotus passed in the state
-  const workouts = state ? state.workouts : [];
+  const navigate = useNavigate();
 
-  //hook to get currently authenticated user
+  // Retrieve workouts and class name passed in the state
+  const workouts = state ? state.workouts : [];
+  const className = state ? state.className : 'Workout Plans'; // Use 'Workout Plans' as default if className is not provided
+
+  // Hook to get currently authenticated user
   const { user } = useAuth();
 
   const [selectedDuration, setSelectedDuration] = useState(null);
@@ -26,23 +29,23 @@ function Workouts() {
 
   const serverUrl = "http://localhost:5001";
 
-  //toffle visibilkity of the duration filter
+  // Toggle visibility of the duration filter
   const toggleDuration = () => {
     setDurationVisible(!durationVisible);
   };
 
-  //toggle visibility of the intensity filter
+  // Toggle visibility of the intensity filter
   const toggleIntensity = () => {
     setIntensityVisible(!intensityVisible);
   };
 
-  //handle changes to the duration filter
+  // Handle changes to the duration filter
   const handleDurationChange = (event) => {
     const value = event.target.value;
     setSelectedDuration(prevState => (prevState === value ? null : value));
   };
 
-  // handle changes to the intensity filter
+  // Handle changes to the intensity filter
   const handleIntensityChange = (event) => {
     const value = event.target.value;
     setSelectedIntensity(prevState =>
@@ -52,7 +55,7 @@ function Workouts() {
     );
   };
 
-  //toggle visibility for description of a specific workout
+  // Toggle visibility for description of a specific workout
   const toggleDescription = (index) => {
     setDescriptionsVisible((prevDescriptionsVisible) => {
       const newDescriptionsVisible = [...prevDescriptionsVisible];
@@ -61,7 +64,7 @@ function Workouts() {
     });
   };
 
-  //filter workotus based on selected duration and intensity
+  // Filter workouts based on selected duration and intensity
   const filterWorkouts = () => {
     const filteredByIntensity = selectedIntensity.length === 0
       ? workouts
@@ -73,7 +76,7 @@ function Workouts() {
     return filteredByIntensity.slice(0, numWorkouts);
   };
 
-  //workout complete and update xp
+  // Workout complete and update XP
   const handleWorkoutComplete = async () => {
     const filteredWorkouts = filterWorkouts();
 
@@ -85,6 +88,7 @@ function Workouts() {
         Class XP: ${result.classXP}, Class Level: ${result.classLevel}
         Character Level: ${result.characterLevel}
       `);
+      navigate('/main')
     } catch (error) {
       console.error('Error updating XP:', error);
       alert('Error updating XP: ' + error.message);
@@ -95,7 +99,7 @@ function Workouts() {
 
   return (
     <div className="workouts-container">
-      <h1>Workout Plans</h1>
+      <h1>{className} Workouts</h1> {/* Display the class name here */}
       <div className="workout-page">
         <div className="filter-container">
           <div className="filter">
@@ -132,7 +136,7 @@ function Workouts() {
                 <div className="workout-details">
                   {workout.image_url && (
                     <img src={`${serverUrl}/${workout.image_url}`} alt={`${workout.workout_type} image`} className="workout-image" />
-                )}
+                  )}
                   <h3>{workout.workout_type}</h3>
                   <p>{workout.sets_reps}</p>
                   {descriptionsVisible[index] && <p>{workout.description}</p>}
@@ -145,7 +149,6 @@ function Workouts() {
           </div>
         </div>
       </div>
-      
     </div>
   );
 }
