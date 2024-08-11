@@ -2,15 +2,15 @@
   text-align: center;
   padding: 20px;
   position: relative;
-  height: 100vh; 
+  height: 100vh;
   background-color: #ffffff;
   color: #F8EDED;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .carousel {
-  width: 95%; 
-  max-width: 1000px; 
+  width: 95%;
+  max-width: 1000px;
   margin: auto;
   position: relative;
   border-radius: 10px;
@@ -30,8 +30,16 @@
 .carousel-item img {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
-  transition: transform 0.5s ease-in-out; 
+  object-fit: cover;
+  transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out; 
+  border: 5px solid #ffffff; 
+  border-radius: 10px; 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.carousel-item img:hover {
+  transform: scale(1.05); 
+  filter: brightness(90%); 
 }
 
 .carousel-caption {
@@ -39,43 +47,43 @@
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.5); 
-  color: #ffffff; 
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
   padding: 10px 20px;
   border-radius: 5px;
 }
 
 .carousel-control-prev, .carousel-control-next {
   width: 40px;
-  height: 40px; 
+  height: 40px;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.3); 
-  border-radius: 50%; 
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
-  display: flex; 
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .carousel-control-prev-icon, .carousel-control-next-icon {
-  background-size: 50%; 
+  background-size: 50%;
   background-repeat: no-repeat;
-  filter: invert(1); 
+  filter: invert(1);
 }
 
 .carousel-control-prev:hover, .carousel-control-next:hover {
-  background: rgba(0, 0, 0, 0.5); 
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4); 
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .carousel-indicators {
-  bottom: 10px; 
+  bottom: 10px;
 }
 
 .carousel-indicators li {
   background-color: #FF8225;
-  border-radius: 50%; 
+  border-radius: 50%;
 }
 
 .carousel-indicators .active {
@@ -83,7 +91,7 @@
 }
 
 .carousel-indicators {
-  display: none; 
+  display: none;
 }
 
 .fixed-button {
@@ -118,7 +126,7 @@
   display: flex;
   justify-content: space-around;
   padding: 20px;
-  width: 70%; 
+  width: 70%;
   margin: 20px auto;
 }
 
@@ -127,40 +135,38 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: #333; 
+  color: #333;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .icon-item:hover {
-  color: #ee8c0c; 
-  transform: translateY(-5px); 
+  color: #ee8c0c;
+  transform: translateY(-5px);
 }
 
 .home-icon {
   width: 40px;
   height: 40px;
   margin-bottom: 10px;
-  fill: #333; 
+  fill: #333;
   transition: fill 0.3s ease, transform 0.3s ease;
 }
 
 .icon-item:hover .home-icon {
-  fill: #007BFF; 
+  fill: #007BFF;
   transform: scale(1.1);
 }
 
 .icon-text {
   font-size: 16px;
   font-weight: bold;
-  color: #333; 
+  color: #333;
   transition: color 0.3s ease;
 }
 
 .icon-item:hover .icon-text {
-  color: #ee8c0c; 
+  color: #ee8c0c;
 }
-
-
 
 h3 {
   font-family: 'Roboto', sans-serif;
