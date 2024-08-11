@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { updateXP } from './xpSystem';
 import '../styles/Workouts.css';
@@ -8,11 +8,18 @@ function Workouts() {
   const [durationVisible, setDurationVisible] = useState(true);
   const [intensityVisible, setIntensityVisible] = useState(true);
 
+
+  // Get the current location object, contains state passed from previous page
   const location = useLocation();
   const { state } = location;
+
+  const navigate = useNavigate();
+
+  // Retrieve workouts and class name passed in the state
   const workouts = state ? state.workouts : [];
-  const className = state ? state.className : 'Class'; // Extract className
-  console.log('Class Name:', className);
+  const className = state ? state.className : 'Workout Plans'; // Use 'Workout Plans' as default if className is not provided
+
+  // Hook to get currently authenticated user
   const { user } = useAuth();
 
   const [selectedDuration, setSelectedDuration] = useState(null);
@@ -21,19 +28,29 @@ function Workouts() {
     Array(workouts.length).fill(false)
   );
 
+
+  const serverUrl = "http://localhost:5001";
+
+  // Toggle visibility of the duration filter
   const toggleDuration = () => {
     setDurationVisible(!durationVisible);
   };
 
+
+  // Toggle visibility of the intensity filter
   const toggleIntensity = () => {
     setIntensityVisible(!intensityVisible);
   };
 
+
+  // Handle changes to the duration filter
   const handleDurationChange = (event) => {
     const value = event.target.value;
     setSelectedDuration(prevState => (prevState === value ? null : value));
   };
 
+
+  // Handle changes to the intensity filter
   const handleIntensityChange = (event) => {
     const value = event.target.value;
     setSelectedIntensity(prevState =>
@@ -43,6 +60,8 @@ function Workouts() {
     );
   };
 
+
+  // Toggle visibility for description of a specific workout
   const toggleDescription = (index) => {
     setDescriptionsVisible((prevDescriptionsVisible) => {
       const newDescriptionsVisible = [...prevDescriptionsVisible];
@@ -51,6 +70,8 @@ function Workouts() {
     });
   };
 
+
+  // Filter workouts based on selected duration and intensity
   const filterWorkouts = () => {
     const filteredByIntensity = selectedIntensity.length === 0
       ? workouts
@@ -62,6 +83,8 @@ function Workouts() {
     return filteredByIntensity.slice(0, numWorkouts);
   };
 
+
+  // Workout complete and update XP
   const handleWorkoutComplete = async () => {
     const filteredWorkouts = filterWorkouts();
 
@@ -73,6 +96,7 @@ function Workouts() {
         Class XP: ${result.classXP}, Class Level: ${result.classLevel}
         Character Level: ${result.characterLevel}
       `);
+      navigate('/main')
     } catch (error) {
       console.error('Error updating XP:', error);
       alert('Error updating XP: ' + error.message);
@@ -83,7 +107,7 @@ function Workouts() {
 
   return (
     <div className="workouts-container">
-      <h1>{className} Workout Plans</h1>
+      <h1>{className} Workouts</h1> {/* Display the class name here */}
       <div className="workout-page">
         <div className="filter-container">
           <div className="filter">
@@ -120,6 +144,9 @@ function Workouts() {
             {filteredWorkouts.map((workout, index) => (
               <div key={index} className="workout-card">
                 <div className="workout-details">
+                  {workout.image_url && (
+                    <img src={`${serverUrl}/${workout.image_url}`} alt={`${workout.workout_type} image`} className="workout-image" />
+                  )}
                   <h3>{workout.workout_type}</h3>
                   <p>{workout.sets_reps}</p>
                   {descriptionsVisible[index] && <p>{workout.description}</p>}

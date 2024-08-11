@@ -38,7 +38,7 @@ function Main() {
       const response = await fetch(`http://localhost:5001/api/workouts/${className.toLowerCase()}`);
       const data = await response.json();
       setWorkouts(data);
-      navigate('/workouts', { state: { workouts: data, classId } });
+      navigate('/workouts', { state: { workouts: data, classId, className } });
     } catch (error) {
       console.error('Error fetching workouts:', error);
     }

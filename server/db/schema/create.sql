@@ -56,5 +56,6 @@ CREATE TABLE Workouts (
   duration INTEGER,
   sets_reps TEXT,
   description TEXT,
-  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  image_url TEXT
 );
