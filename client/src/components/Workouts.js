@@ -107,7 +107,7 @@ function Workouts() {
 
   return (
     <div className="workouts-container">
-      <h1>{className} Workouts</h1> {/* Display the class name here */}
+      <h1>{className} Workouts</h1> 
       <div className="workout-page">
         <div className="filter-container">
           <div className="filter">

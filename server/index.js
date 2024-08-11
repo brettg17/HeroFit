@@ -4,9 +4,7 @@ const pool = require('./db');
 const path = require('path');
 const app = express();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+
 
 // API Routes
 const homeRoute = require('./routes/homeRoute');
@@ -17,7 +15,7 @@ const xpRoute = require('./routes/xpRoute');
 const dailyChallengesRoute = require('./routes/dailyChallengesRoute');
 const profileRoute = require('./routes/profileRoute');
 
-const app = express();
+
 
 // Middleware
 app.use(cors());
