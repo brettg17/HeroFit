@@ -13,11 +13,13 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = (userData) => {
+    // Store user data in local storage and set it in state
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
   };
 
   const logout = () => {
+    // Remove user data from local storage and clear state
     localStorage.removeItem('user');
     setUser(null);
   };

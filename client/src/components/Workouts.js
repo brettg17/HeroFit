@@ -8,6 +8,7 @@ function Workouts() {
   const [durationVisible, setDurationVisible] = useState(true);
   const [intensityVisible, setIntensityVisible] = useState(true);
 
+
   // Get the current location object, contains state passed from previous page
   const location = useLocation();
   const { state } = location;
@@ -27,6 +28,7 @@ function Workouts() {
     Array(workouts.length).fill(false)
   );
 
+
   const serverUrl = "http://localhost:5001";
 
   // Toggle visibility of the duration filter
@@ -34,16 +36,19 @@ function Workouts() {
     setDurationVisible(!durationVisible);
   };
 
+
   // Toggle visibility of the intensity filter
   const toggleIntensity = () => {
     setIntensityVisible(!intensityVisible);
   };
+
 
   // Handle changes to the duration filter
   const handleDurationChange = (event) => {
     const value = event.target.value;
     setSelectedDuration(prevState => (prevState === value ? null : value));
   };
+
 
   // Handle changes to the intensity filter
   const handleIntensityChange = (event) => {
@@ -55,6 +60,7 @@ function Workouts() {
     );
   };
 
+
   // Toggle visibility for description of a specific workout
   const toggleDescription = (index) => {
     setDescriptionsVisible((prevDescriptionsVisible) => {
@@ -63,6 +69,7 @@ function Workouts() {
       return newDescriptionsVisible;
     });
   };
+
 
   // Filter workouts based on selected duration and intensity
   const filterWorkouts = () => {
@@ -75,6 +82,7 @@ function Workouts() {
     const numWorkouts = Math.floor(selectedDuration / 7.5);
     return filteredByIntensity.slice(0, numWorkouts);
   };
+
 
   // Workout complete and update XP
   const handleWorkoutComplete = async () => {
@@ -103,21 +111,23 @@ function Workouts() {
       <div className="workout-page">
         <div className="filter-container">
           <div className="filter">
-            <button onClick={toggleDuration} className="card-button">
-              {durationVisible ? 'Hide Duration' : 'Show Duration'}
-            </button>
+            <div className="filter-header" onClick={toggleDuration}>
+              <span>Duration ⏱</span>
+              <span className={`filter-icon ${durationVisible ? 'rotate' : ''}`}>▼</span>
+            </div>
             <div className={`filter-content ${durationVisible ? '' : 'collapsed'}`}>
               <ul>
-                <li><label><input type="checkbox" value="30" onChange={handleDurationChange} checked={selectedDuration === '30'} /> 30m </label></li>
-                <li><label><input type="checkbox" value="45" onChange={handleDurationChange} checked={selectedDuration === '45'} /> 45m </label></li>
-                <li><label><input type="checkbox" value="60" onChange={handleDurationChange} checked={selectedDuration === '60'} /> 60m </label></li>
+                <li><label><input type="checkbox" value="30" onChange={handleDurationChange} checked={selectedDuration === '30'} /> 30 mins </label></li>
+                <li><label><input type="checkbox" value="45" onChange={handleDurationChange} checked={selectedDuration === '45'} /> 45 mins </label></li>
+                <li><label><input type="checkbox" value="60" onChange={handleDurationChange} checked={selectedDuration === '60'} /> 60 mins </label></li>
               </ul>
             </div>
           </div>
           <div className="filter">
-            <button onClick={toggleIntensity} className="card-button">
-              {intensityVisible ? 'Hide Intensity' : 'Show Intensity'}
-            </button>
+            <div className="filter-header" onClick={toggleIntensity}>
+              <span>Intensity 💀</span>
+              <span className={`filter-icon ${intensityVisible ? 'rotate' : ''}`}>▼</span>
+            </div>
             <div className={`filter-content ${intensityVisible ? '' : 'collapsed'}`}>
               <ul>
                 <li><label><input type="checkbox" value="Easy" onChange={handleIntensityChange} /> Easy</label></li>

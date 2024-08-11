@@ -7,6 +7,7 @@ import Main from './components/Main';
 import Workouts from './components/Workouts';
 import DailyTasks from "./components/DailyTasks";
 import Home from './components/Home'
+import MyProfile from './components/MyProfile'
 import { AuthProvider } from './components/AuthContext';
 
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/main" element={<Main />} />
           <Route path="/Workouts" element={<Workouts />} />
           <Route path="/daily-challenges" element={<DailyTasks />} />
+          <Route path="/my-profile/:user_id" element={<MyProfile />} />
         </Routes>
       </div>
     </Router>

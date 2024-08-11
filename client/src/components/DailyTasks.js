@@ -1,19 +1,37 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';  
+import { updateXP } from './xpSystem';    
 import '../styles/DailyTasks.css';
-
+import warrior from '../assets/fitApp-pictures/warrior.jpeg';
+import wizard from '../assets/fitApp-pictures/wizard.jpeg';
+import archer from '../assets/fitApp-pictures/archer.jpeg';
+import rogue from '../assets/fitApp-pictures/rogue.jpeg';
 
 const getClassName = (classId) => {
   switch (classId) {
     case 1:
-      return 'Warrior';
+      return { name: 'Warrior', imgSrc: warrior };
     case 2:
-      return 'Rogue';
+      return { name: 'Rogue', imgSrc: rogue };
     case 3:
-      return 'Archer';
+      return { name: 'Archer', imgSrc: archer };
     case 4:
-      return 'Wizard';
+      return { name: 'Wizard', imgSrc: wizard };
     default:
-      return 'Unknown';
+      return { name: 'Unknown', imgSrc: '' };
+  }
+};
+
+const calculateXP = (difficulty) => {
+  switch (difficulty) {
+    case 'Easy':
+      return 10;
+    case 'Medium':
+      return 15;
+    case 'Hard':
+      return 20;
+    default:
+      return 0;
   }
 };
 
@@ -21,19 +39,36 @@ const DailyTasks = () => {
   const [challenges, setChallenges] = useState([]);
   const [progress, setProgress] = useState({});
   const [completed, setCompleted] = useState({});
-  const [collapsed, setCollapsed] = useState({}); 
-  const [inProgress, setInProgress] = useState({}); 
-
-  const class_id = 1; 
+  const [collapsed, setCollapsed] = useState({});
+  const [inProgress, setInProgress] = useState({});
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const { user } = useAuth(); // Get current user from AuthContext
 
   useEffect(() => {
-    fetch(`http://localhost:5001/api/daily-challenges`)
+    fetch('http://localhost:5001/api/daily-challenges')
       .then(response => response.json())
       .then(data => {
         setChallenges(data);
       })
       .catch(error => console.error('Error fetching challenges:', error));
-  }, [class_id]);
+      
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  function calculateTimeLeft() {
+    const now = new Date();
+    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const difference = midnight - now;
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+    
+    return { hours, minutes, seconds };
+  }
 
   const startChallenge = (id) => {
     setInProgress((prev) => ({ ...prev, [id]: true }));
@@ -43,7 +78,7 @@ const DailyTasks = () => {
       setProgress((prev) => {
         if (prev[id] >= 100) {
           clearInterval(interval);
-          setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
+          handleChallengeCompletion(id); 
           setInProgress((prev) => ({ ...prev, [id]: false }));
           return prev;
         }
@@ -52,10 +87,29 @@ const DailyTasks = () => {
     }, 50);
   };
 
+  const handleChallengeCompletion = async (id) => {
+    try {
+      const challenge = challenges.find(challenge => challenge.workout_id === id);
+      if (challenge) {
+        const xpGained = calculateXP(challenge.difficulty);
+        const result = await updateXP(user.user_id, challenge.class_id, [challenge]); // Passing the challenge in an array
+        setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
+        setProgress((prev) => ({ ...prev, [id]: 100 }));
+        alert(`
+          Challenge Completed!
+          ${result.message}
+          Class XP: ${result.classXP}, Class Level: ${result.classLevel}
+          Character Level: ${result.characterLevel}
+        `);
+      }
+    } catch (error) {
+      console.error('Error updating XP:', error);
+      alert('Error updating XP: ' + error.message);
+    }
+  };
+
   const finishChallenge = (id) => {
-    setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
-    setInProgress((prev) => ({ ...prev, [id]: false }));
-    setProgress((prev) => ({ ...prev, [id]: 100 })); //progress bar @ 100%
+    handleChallengeCompletion(id); 
   };
 
   const toggleCollapse = (id) => {
@@ -65,55 +119,72 @@ const DailyTasks = () => {
   return (
     <div className="daily-tasks">
       <h2>Daily Challenges</h2>
-      {challenges.map((challenge, index) => (
-        <div key={challenge.workout_id} className={`challenge ${collapsed[challenge.workout_id] ? 'collapsed' : ''}`}>
-          <button className="toggle-button" onClick={() => toggleCollapse(challenge.workout_id)}>
-            {collapsed[challenge.workout_id] ? '+' : '-'}
-          </button>
-          {!collapsed[challenge.workout_id] ? (
-            <>
-              <div className="challenge-title">{challenge.workout_type}</div>
-              <div className="challenge-info">
-                <div>
-                  <p>Difficulty: {challenge.difficulty}</p>
-                  <p>Duration: {challenge.duration} mins</p>
-                  <p className="challenge-class">Class: {getClassName(challenge.class_id)}</p>
+      {challenges.map((challenge, index) => {
+        const classInfo = getClassName(challenge.class_id);
+        return (
+          <div key={challenge.workout_id} className={`challenge ${collapsed[challenge.workout_id] ? 'collapsed' : ''}`}>
+            <button className="toggle-button" onClick={() => toggleCollapse(challenge.workout_id)}>
+              {collapsed[challenge.workout_id] ? '+' : '-'}
+            </button>
+            {!collapsed[challenge.workout_id] ? (
+              <>
+                <div className="challenge-title">{challenge.workout_type}</div>
+                <div className="challenge-info">
+                  <div>
+                    <p>Difficulty: {challenge.difficulty}</p>
+                    <p>Duration: {challenge.duration} mins</p>
+                    <p className="challenge-description">Description: {challenge.description || 'No description available'}</p>
+                    <p className="challenge-class">
+                      Class: {classInfo.name}
+                      {classInfo.imgSrc && <img src={classInfo.imgSrc} alt={classInfo.name} className="class-icon" />}
+                    </p>
+                  </div>
+                  <p className="reward-text" style={{ color: completed[challenge.workout_id] ? 'green' : 'red' }}>
+                    {completed[challenge.workout_id] 
+                      ? `XP Earned: ${calculateXP(challenge.difficulty)} XP` 
+                      : `Reward: ${calculateXP(challenge.difficulty)} XP`}
+                  </p>
                 </div>
-                <p className="reward-text" style={{ color: completed[challenge.workout_id] ? 'green' : 'red' }}>
-                  {completed[challenge.workout_id] ? 'XP Earned: 100 XP' : 'Reward: 100 XP'}
-                </p>
+                <div className="progress-container">
+                  <div className="progress-bar" style={{ width: `${progress[challenge.workout_id] || 0}%` }}></div>
+                </div>
+                {completed[challenge.workout_id] ? (
+                  <button disabled>Challenge Completed</button>
+                ) : inProgress[challenge.workout_id] ? (
+                  <button className="in-progress-button" disabled>
+                    Workout in Progress
+                  </button>
+                ) : progress[challenge.workout_id] >= 100 ? (
+                  <button className="finish-workout-button" onClick={() => finishChallenge(challenge.workout_id)}>
+                    Finish Workout
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => startChallenge(challenge.workout_id)}
+                    disabled={progress[challenge.workout_id] > 0}
+                  >
+                    Begin Workout
+                  </button>
+                )}
+              </>
+            ) : (
+              <div className="collapsed-content">
+                Challenge {index + 1} - <span className={`status ${completed[challenge.workout_id] ? 'completed' : 'not-completed'}`}>
+                  {completed[challenge.workout_id] ? 'Completed' : 'Not Completed'}
+                </span>
               </div>
-              <div className="progress-container">
-                <div className="progress-bar" style={{ width: `${progress[challenge.workout_id] || 0}%` }}></div>
-              </div>
-              {completed[challenge.workout_id] ? (
-                <button disabled>Challenge Completed</button>
-              ) : inProgress[challenge.workout_id] ? (
-                <button className="in-progress-button" disabled>
-                  Workout in Progress
-                </button>
-              ) : progress[challenge.workout_id] >= 100 ? (
-                <button className="finish-workout-button" onClick={() => finishChallenge(challenge.workout_id)}>
-                  Finish Workout
-                </button>
-              ) : (
-                <button
-                  onClick={() => startChallenge(challenge.workout_id)}
-                  disabled={progress[challenge.workout_id] > 0}
-                >
-                  Begin Workout
-                </button>
-              )}
-            </>
-          ) : (
-            <div className="collapsed-content">
-              Challenge {index + 1} - <span className={`status ${completed[challenge.workout_id] ? 'completed' : 'not-completed'}`}>
-                {completed[challenge.workout_id] ? 'Completed' : 'Not Completed'}
-              </span>
-            </div>
-          )}
+            )}
+          </div>
+        );
+      })}
+      <div className="countdown">
+        <h3>Daily challenges reset in:</h3>
+        <div className="countdown-timer">
+          <span>{String(timeLeft.hours).padStart(2, '0')}:</span>
+          <span>{String(timeLeft.minutes).padStart(2, '0')}:</span>
+          <span>{String(timeLeft.seconds).padStart(2, '0')}</span>
         </div>
-      ))}
+      </div>
     </div>
   );
 };

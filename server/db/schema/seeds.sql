@@ -1,9 +1,7 @@
 INSERT INTO users (fullname, username, email, password) VALUES
 ('John Doe', 'johndoe', 'john@example.com', '1234'),
 ('Jane Smith', 'janesmith', 'jane@example.com', '1234'),
-('Mike Johnson', 'mikejohnson', 'mike@example.com', '1234'),
-
-;
+('Mike Johnson', 'mikejohnson', 'mike@example.com', '1234');
 
 INSERT INTO CharacterClasses (class_name) VALUES 
 ('Warrior'),

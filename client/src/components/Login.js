@@ -18,12 +18,34 @@ function Login() {
         email,
         password,
       });
-      login(response.data);
+  
+      console.log('Login response:', response.data);
+  
+      // Save email and username to local storage
+      localStorage.setItem('email', response.data.email);
+      localStorage.setItem('username', response.data.username);
+  
+      // Fetch user details to get user_id
+      const userDetails = await axios.get(`http://localhost:5001/api/auth/user?email=${response.data.email}`);
+  
+      // debug check
+      console.log('User details response:', userDetails.data);
+  
+      // Save user_id locally
+      localStorage.setItem('user_id', userDetails.data.user_id);
+  
+      // verfy check 
+      console.log('email:', localStorage.getItem('email'));
+      console.log('username:', localStorage.getItem('username'));
+      console.log('user_id:', localStorage.getItem('user_id'));
+  
+      login(response.data); 
       navigate('/classes');
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     }
   };
+  
 
   return (
     <div className="login-container">
