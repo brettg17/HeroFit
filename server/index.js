@@ -2,11 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
 const path = require('path');
-const app = express();
-
-// Middleware
-app.use(cors());
-app.use(express.json());
 
 // API Routes
 const homeRoute = require('./routes/homeRoute');

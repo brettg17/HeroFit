@@ -117,23 +117,50 @@
 .icons-container {
   display: flex;
   justify-content: space-around;
-  width: 70%; /* Adjust width to fit content */
+  padding: 20px;
+  width: 70%; 
   margin: 20px auto;
-  color: #FF8225;
 }
 
 .icon-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #F8EDED;
+  text-align: center;
+  color: #333; 
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.icon-item:hover {
+  color: #ee8c0c; 
+  transform: translateY(-5px); 
+}
+
+.home-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
+  fill: #333; 
+  transition: fill 0.3s ease, transform 0.3s ease;
+}
+
+.icon-item:hover .home-icon {
+  fill: #007BFF; 
+  transform: scale(1.1);
 }
 
 .icon-text {
-  margin-top: 10px;
   font-size: 16px;
-  color: #F8EDED;
+  font-weight: bold;
+  color: #333; 
+  transition: color 0.3s ease;
 }
+
+.icon-item:hover .icon-text {
+  color: #ee8c0c; 
+}
+
+
 
 h3 {
   font-family: 'Roboto', sans-serif;
