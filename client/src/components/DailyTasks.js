@@ -46,8 +46,8 @@ const DailyTasks = () => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const { user } = useAuth(); // Get current user from AuthContext
-  const navigate = useNavigate(); // Hook for navigation
+  const { user } = useAuth(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:5001/api/daily-challenges')
