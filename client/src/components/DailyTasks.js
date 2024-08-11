@@ -120,7 +120,6 @@ const DailyTasks = () => {
             ${result.message}
             Class XP: ${result.classXP}, Class Level: ${result.classLevel}
             Character Level: ${result.characterLevel}
-            Total Daily Challenges Completed: ${completedCount + 1}
           `);
         } else {
           throw new Error('Failed to update daily challenges count');
