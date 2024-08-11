@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 const MyProfile = () => {
   const { user_id } = useParams(); 
   const [profile, setProfile] = useState(null);
-  const [error, setError] = useState(null); // Define error state
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     if (!user_id) {
@@ -17,15 +17,18 @@ const MyProfile = () => {
     }
 
     axios.get(`http://localhost:5001/api/my-profile/${user_id}`)
-      .then(response => setProfile(response.data))
+      .then(response => {
+        console.log('Profile data:', response.data); 
+        setProfile(response.data);
+    })
       .catch(err => {
         console.error('Error fetching profile:', err);
-        setError(err.message); // Update error state
+        setError(err.message); 
       });
   }, [user_id]);
 
   if (error) {
-    return <div>Error: {error}</div>; // Handle error
+    return <div>Error: {error}</div>; 
   }
 
   if (!profile) {

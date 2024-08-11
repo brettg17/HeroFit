@@ -108,21 +108,23 @@ const DailyTasks = () => {
         const result = await updateXP(user.user_id, challenge.class_id, [challenge]); 
         setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
         setProgress((prev) => ({ ...prev, [id]: 100 }));
-
-        await fetch(`http://localhost:5001/api/update-daily-challenges-completed/${user.user_id}`, {
+  
+        const response = await fetch(`http://localhost:5001/api/update-daily-challenges-completed/${user.user_id}`, {
           method: 'POST',
         });
-
-        // Update completed challenges count
-        setCompletedCount(prevCount => prevCount + 1);
   
-        alert(`
-          Challenge Completed!
-          ${result.message}
-          Class XP: ${result.classXP}, Class Level: ${result.classLevel}
-          Character Level: ${result.characterLevel}
-          Total Daily Challenges Completed: ${completedCount + 1}
-        `);
+        if (response.ok) {
+          setCompletedCount(prevCount => prevCount + 1);
+          alert(`
+            Challenge Completed!
+            ${result.message}
+            Class XP: ${result.classXP}, Class Level: ${result.classLevel}
+            Character Level: ${result.characterLevel}
+            Total Daily Challenges Completed: ${completedCount + 1}
+          `);
+        } else {
+          throw new Error('Failed to update daily challenges count');
+        }
       }
     } catch (error) {
       console.error('Error updating XP:', error);
