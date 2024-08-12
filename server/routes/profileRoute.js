@@ -38,7 +38,7 @@ router.get('/:user_id', async (req, res) => {
       archerLevel: userProfile.archer_level,
       wizardXP: userProfile.wizard_experience,
       wizardLevel: userProfile.wizard_level,
-      challengesCompleted: userProfile.challenges_completed || 0,
+      challengesCompleted: user.dailychallenges_completed,
       signup_date: user.signup_date,
     };
 

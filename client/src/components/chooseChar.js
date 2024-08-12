@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/chooseChar.css';
-import warriorShot from '../assets/vecteezy_silhouette-of-a-woman-with-a-sword_23059981.jpg';
-import wizardShot from '../assets/vecteezy_ai-generated-young-adult-beauty-portrait-of-a-sensuous_39589683.jpg';
-import archerShot from '../assets/vecteezy_silhouette-of-an-archer-aiming-at-sunset-in-a-field-of-grass_47023183.jpeg';
-import rogueShot from '../assets/vecteezy_hooded-thief-lurking-in-the-dark-night_32941682.jpg';
+import warriorShot from '../assets/class-warrior.png';
+import wizardShot from '../assets/class-wizard.png';
+import archerShot from '../assets/class-archer.png';
+import rogueShot from '../assets/class-rogue.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell, faTrophy, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 
 function ChooseChar() {
-  //State to managge teh selected character class, 
+  //State to managge the selected character class, 
   //Navigate for navigating to other pages
   //Auth for help displaying welcome message with username
   const [selectedClass, setSelectedClass] = useState(null);
@@ -89,7 +89,7 @@ function ChooseChar() {
         </div>
         <div className="icon-item">
           <FontAwesomeIcon icon={faChartLine} className="home-icon" />
-          <span className="icon-text">Progression</span>
+          <span className="icon-text">Profile</span>
         </div>
       </div>
     </div>

@@ -4,10 +4,10 @@ import { useAuth } from './AuthContext';
 import { updateXP } from './xpSystem';    
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/DailyTasks.css';
-import warrior from '../assets/fitApp-pictures/warrior.jpeg';
-import wizard from '../assets/fitApp-pictures/wizard.jpeg';
-import archer from '../assets/fitApp-pictures/archer.jpeg';
-import rogue from '../assets/fitApp-pictures/rogue.jpeg';
+import warrior from '../assets/class-warrior.png';
+import wizard from '../assets/class-wizard.png';
+import archer from '../assets/class-archer.png';
+import rogue from '../assets/class-rogue.png';
 
 const getClassName = (classId) => {
   switch (classId) {
@@ -44,10 +44,14 @@ const DailyTasks = () => {
   const [collapsed, setCollapsed] = useState({});
   const [inProgress, setInProgress] = useState({});
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const { user } = useAuth(); 
   const navigate = useNavigate();
+  const [completedCount, setCompletedCount] = useState(0); 
+
+
 
   useEffect(() => {
     fetch('http://localhost:5001/api/daily-challenges')
@@ -56,13 +60,25 @@ const DailyTasks = () => {
         setChallenges(data);
       })
       .catch(error => console.error('Error fetching challenges:', error));
-      
+
+    fetchCompletedChallengesCount(); 
+    
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(timer);
   }, []);
+
+  const fetchCompletedChallengesCount = async () => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/completed-challenges-count/${user.user_id}`);
+      const data = await response.json();
+      setCompletedCount(data.count);
+    } catch (error) {
+      console.error('Error fetching completed challenges count:', error);
+    }
+  };
 
   function calculateTimeLeft() {
     const now = new Date();
@@ -97,7 +113,7 @@ const DailyTasks = () => {
       const challenge = challenges.find(challenge => challenge.workout_id === id);
       if (challenge) {
         const xpGained = calculateXP(challenge.difficulty);
-        const result = await updateXP(user.user_id, challenge.class_id, [challenge]); // Passing the challenge in an array
+        const result = await updateXP(user.user_id, challenge.class_id, [challenge]); 
         setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
         setProgress((prev) => ({ ...prev, [id]: 100 }));
 
@@ -115,6 +131,7 @@ const DailyTasks = () => {
           setAlertVisible(false);
           navigate('/main');
         }, 5000);
+
       }
     } catch (error) {
       console.error('Error updating XP:', error);
