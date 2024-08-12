@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { updateXP } from './xpSystem';
+import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/Workouts.css';
 
 function Workouts() {
   const [durationVisible, setDurationVisible] = useState(true);
   const [intensityVisible, setIntensityVisible] = useState(true);
 
+  // State for managing the alert visibility and message
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   // Get the current location object, contains state passed from previous page
   const location = useLocation();
@@ -28,7 +32,6 @@ function Workouts() {
     Array(workouts.length).fill(false)
   );
 
-
   const serverUrl = "http://localhost:5001";
 
   // Toggle visibility of the duration filter
@@ -36,19 +39,16 @@ function Workouts() {
     setDurationVisible(!durationVisible);
   };
 
-
   // Toggle visibility of the intensity filter
   const toggleIntensity = () => {
     setIntensityVisible(!intensityVisible);
   };
-
 
   // Handle changes to the duration filter
   const handleDurationChange = (event) => {
     const value = event.target.value;
     setSelectedDuration(prevState => (prevState === value ? null : value));
   };
-
 
   // Handle changes to the intensity filter
   const handleIntensityChange = (event) => {
@@ -60,7 +60,6 @@ function Workouts() {
     );
   };
 
-
   // Toggle visibility for description of a specific workout
   const toggleDescription = (index) => {
     setDescriptionsVisible((prevDescriptionsVisible) => {
@@ -69,7 +68,6 @@ function Workouts() {
       return newDescriptionsVisible;
     });
   };
-
 
   // Filter workouts based on selected duration and intensity
   const filterWorkouts = () => {
@@ -83,7 +81,6 @@ function Workouts() {
     return filteredByIntensity.slice(0, numWorkouts);
   };
 
-
   // Workout complete and update XP
   const handleWorkoutComplete = async () => {
     const filteredWorkouts = filterWorkouts();
@@ -91,12 +88,20 @@ function Workouts() {
     try {
       const result = await updateXP(user.user_id, state.classId, filteredWorkouts);
 
-      alert(`
+      // Display success alert
+      setAlertMessage(`
         ${result.message}
         Class XP: ${result.classXP}, Class Level: ${result.classLevel}
         Character Level: ${result.characterLevel}
       `);
-      navigate('/main')
+      setAlertVisible(true);
+
+      // Navigate back to main after a delay
+      setTimeout(() => {
+        setAlertVisible(false);
+        navigate('/main');
+      }, 5000);
+      
     } catch (error) {
       console.error('Error updating XP:', error);
       alert('Error updating XP: ' + error.message);
@@ -107,7 +112,16 @@ function Workouts() {
 
   return (
     <div className="workouts-container">
-      <h1>{className} Workouts</h1> {/* Display the class name here */}
+      {alertVisible && (
+        <div className="alert alert-success" role="alert">
+          <h4 className="alert-heading">Well done!</h4>
+          <p>{alertMessage}</p>
+          <hr />
+          <p className="mb-0">You will be redirected shortly...</p>
+        </div>
+      )}
+      
+      <h1>{className} Workouts</h1> 
       <div className="workout-page">
         <div className="filter-container">
           <div className="filter">

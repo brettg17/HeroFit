@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';  
 import { updateXP } from './xpSystem';    
+import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/DailyTasks.css';
 import warrior from '../assets/class-warrior.png';
 import wizard from '../assets/class-wizard.png';
@@ -42,8 +44,14 @@ const DailyTasks = () => {
   const [collapsed, setCollapsed] = useState({});
   const [inProgress, setInProgress] = useState({});
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const [completedCount, setCompletedCount] = useState(0); 
+
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const { user } = useAuth(); 
+  const navigate = useNavigate();
+  const [completedCount, setCompletedCount] = useState(0); 
+
+
 
   useEffect(() => {
     fetch('http://localhost:5001/api/daily-challenges')
@@ -108,22 +116,22 @@ const DailyTasks = () => {
         const result = await updateXP(user.user_id, challenge.class_id, [challenge]); 
         setCompleted((prevCompleted) => ({ ...prevCompleted, [id]: true }));
         setProgress((prev) => ({ ...prev, [id]: 100 }));
-  
-        const response = await fetch(`http://localhost:5001/api/update-daily-challenges-completed/${user.user_id}`, {
-          method: 'POST',
-        });
-  
-        if (response.ok) {
-          setCompletedCount(prevCount => prevCount + 1);
-          alert(`
-            Challenge Completed!
-            ${result.message}
-            Class XP: ${result.classXP}, Class Level: ${result.classLevel}
-            Character Level: ${result.characterLevel}
-          `);
-        } else {
-          throw new Error('Failed to update daily challenges count');
-        }
+
+        // Display success alert
+        setAlertMessage(`
+          Challenge Completed!
+          ${result.message}
+          Class XP: ${result.classXP}, Class Level: ${result.classLevel}
+          Character Level: ${result.characterLevel}
+        `);
+        setAlertVisible(true);
+
+        // Hide the alert after 5 seconds and navigate to /main
+        setTimeout(() => {
+          setAlertVisible(false);
+          navigate('/main');
+        }, 5000);
+
       }
     } catch (error) {
       console.error('Error updating XP:', error);
@@ -141,6 +149,15 @@ const DailyTasks = () => {
 
   return (
     <div className="daily-tasks">
+      {alertVisible && (
+        <div className="alert alert-success" role="alert">
+          <h4 className="alert-heading">Well done!</h4>
+          <p>{alertMessage}</p>
+          <hr />
+          <p className="mb-0">Keep up the good work!</p>
+        </div>
+      )}
+
       <h2>Daily Challenges</h2>
       {challenges.map((challenge, index) => {
         const classInfo = getClassName(challenge.class_id);

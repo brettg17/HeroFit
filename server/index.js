@@ -3,6 +3,11 @@ const cors = require('cors');
 const pool = require('./db');
 const path = require('path');
 
+const app = express();
+
+
+
+
 // API Routes
 const homeRoute = require('./routes/homeRoute');
 const loginRoute = require('./routes/loginRoute');
@@ -13,7 +18,7 @@ const dailyChallengesRoute = require('./routes/dailyChallengesRoute');
 const profileRoute = require('./routes/profileRoute');
 const updateDailyChallengesRoute = require('./routes/updateDailyChallengesRoute');
 
-const app = express();
+
 
 // Middleware
 app.use(cors());

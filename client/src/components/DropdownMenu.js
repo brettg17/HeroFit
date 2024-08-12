@@ -25,6 +25,23 @@ function DropdownMenu() {
     setShowWorkoutPlans(!showWorkoutPlans);
   };
 
+  const handleNavigateToWorkouts = async (charClass) => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/workouts/${charClass.toLowerCase()}`);
+      const data = await response.json();
+      console.log('Fetched workouts:', data); // Add this line
+  
+      navigate('/workouts', {
+        state: {
+          className: charClass,
+          workouts: data
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching workouts:', error);
+    }
+  };
+
   return (
     <div className="dropdown">
       <button
@@ -55,7 +72,7 @@ function DropdownMenu() {
             {showWorkoutPlans && (
               <div className="dropdown-submenu">
                 {['Warrior', 'Wizard', 'Archer', 'Rogue'].map((charClass) => (
-                  <a key={charClass} onClick={() => navigate(`/workouts/${charClass.toLowerCase()}`)} className="dropdown-submenu-item">
+                  <a key={charClass} onClick={() =>handleNavigateToWorkouts(charClass)} className="dropdown-submenu-item">
                     {charClass}
                   </a>
                 ))}
