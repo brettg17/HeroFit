@@ -12,13 +12,16 @@ import { faDumbbell, faTrophy, faChartLine } from '@fortawesome/free-solid-svg-i
 
 
 function ChooseChar() {
-  //State to managge the selected character class, 
-  //Navigate for navigating to other pages
-  //Auth for help displaying welcome message with username
+  // State to manage the selected character class
   const [selectedClass, setSelectedClass] = useState(null);
+
+  // Hook for navigation between pages
   const navigate = useNavigate();
+
+  // Get the current user from authentication context
   const { user } = useAuth();
 
+  // Character classes data
   const characterClasses = [
     { name: 'Warrior', description: 'Workouts are tailored towards those who want to build muscle.', imgSrc: warriorShot },
     { name: 'Archer', description: 'Workouts are tailored to those who want to slim down.', imgSrc: archerShot },
@@ -26,6 +29,7 @@ function ChooseChar() {
     { name: 'Wizard', description: 'Workouts are for those who simply want to get into better shape.', imgSrc: wizardShot },
   ];
 
+  // Handle selection of a character class
   const handleSelect = (charClass) => {
     setSelectedClass(charClass);
   };

@@ -9,6 +9,8 @@ import wizard from '../assets/class-wizard.png';
 import archer from '../assets/class-archer.png';
 import rogue from '../assets/class-rogue.png';
 
+
+// Utility function to get class name and image based on class ID
 const getClassName = (classId) => {
   switch (classId) {
     case 1:
@@ -24,6 +26,8 @@ const getClassName = (classId) => {
   }
 };
 
+
+// Utility function to calculate XP based on difficulty
 const calculateXP = (difficulty) => {
   switch (difficulty) {
     case 'Easy':
@@ -53,7 +57,10 @@ const DailyTasks = () => {
 
 
 
+
+
   useEffect(() => {
+     // Fetch daily challenges from the API
     fetch('http://localhost:5001/api/daily-challenges')
       .then(response => response.json())
       .then(data => {
@@ -61,15 +68,19 @@ const DailyTasks = () => {
       })
       .catch(error => console.error('Error fetching challenges:', error));
 
+    // Fetch the count of completed challenges
     fetchCompletedChallengesCount(); 
     
+    // Set up a timer to update the countdown every second
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
+    // Clean up the timer when the component is unmounted
     return () => clearInterval(timer);
   }, []);
 
+  // Fetch the count of completed challenges from the API
   const fetchCompletedChallengesCount = async () => {
     try {
       const response = await fetch(`http://localhost:5001/api/completed-challenges-count/${user.user_id}`);
@@ -80,6 +91,7 @@ const DailyTasks = () => {
     }
   };
 
+  // Function to calculate the time left until midnight
   function calculateTimeLeft() {
     const now = new Date();
     const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
@@ -91,6 +103,7 @@ const DailyTasks = () => {
     return { hours, minutes, seconds };
   }
 
+  // Function to start a challenge and update progress
   const startChallenge = (id) => {
     setInProgress((prev) => ({ ...prev, [id]: true }));
     setProgress((prev) => ({ ...prev, [id]: 0 }));
@@ -108,6 +121,7 @@ const DailyTasks = () => {
     }, 50);
   };
 
+  // Function to handle the completion of a challenge
   const handleChallengeCompletion = async (id) => {
     try {
       const challenge = challenges.find(challenge => challenge.workout_id === id);
@@ -139,10 +153,12 @@ const DailyTasks = () => {
     }
   };
 
+  // Function to handle the finishing of a challenge
   const finishChallenge = (id) => {
     handleChallengeCompletion(id); 
   };
 
+  // Function to toggle the collapsed view of a challenge
   const toggleCollapse = (id) => {
     setCollapsed((prev) => ({ ...prev, [id]: !prev[id] }));
   };

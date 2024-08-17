@@ -8,7 +8,7 @@
   border: none;
   cursor: pointer;
   color: #333; 
-  font-size: 40px; /* for dropdown burger icon */
+  font-size: 40px;
   font-weight: bold;
   transition: color 0.3s;
 }

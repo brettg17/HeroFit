@@ -25,11 +25,14 @@ function DropdownMenu() {
     setShowWorkoutPlans(!showWorkoutPlans);
   };
 
+
+  // Handle navigation to the workouts page after fetching the workouts for the selected class
   const handleNavigateToWorkouts = async (charClass) => {
     try {
+      // Fetch the workouts for the selected class from the server
       const response = await fetch(`http://localhost:5001/api/workouts/${charClass.toLowerCase()}`);
       const data = await response.json();
-      console.log('Fetched workouts:', data); // Add this line
+      console.log('Fetched workouts:', data); 
   
       navigate('/workouts', {
         state: {
